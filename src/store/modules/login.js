@@ -1,8 +1,9 @@
-import request from 'superagent'
-
+import request from '../../utils/request';
+import {login,loginOut} from '../../services/login'
 const state = {
   user_password: '',
   user_name: '',
+  loginError:''
 };
 
 const getters = {
@@ -37,10 +38,8 @@ const mutations = {
     state.login_token = localStorage.getItem('token')
     state.login_name = localStorage.getItem('name')
   },
-  setUser (state, payload) {
-    state.login_email = payload.email
-    state.login_token = payload.token
-    state.login_name = payload.name
+  updateUser (state, payload) {
+    state = {...state,...payload};
   },
   logout (state) {
     localStorage.removeItem('email')
@@ -61,8 +60,18 @@ const actions = {
    * pass: payload.pass
    * name: payload.name
    */
-  login ({ commit }, payload) {
-    return new Promise((resolve, reject) => {
+  async login ({ commit }, payload) {
+    const userData = await login(payload);
+    if(userData.status===200){
+      commit({
+        type: 'updateUser',
+        payload:userData.data
+      });
+      return Promise.resolve(userData.data);
+    }else{
+      return Promise.resolve(userData.msg);
+    }
+    /*return new Promise((resolve, reject) => {
       request
         .get('https://douban.herokuapp.com/user/' + payload.email)
         .set('Authorization', 'Bearer ' + payload.token)
@@ -77,7 +86,7 @@ const actions = {
         }, err => {
           reject(err)
         })
-    })
+    })*/
   },
   /**
    * Register

@@ -1,12 +1,12 @@
 <template>
   <Form ref="formInline" :model="formInline" :rules="ruleInline">
     <FormItem prop="user">
-      <Input type="text" v-model="formInline.user" placeholder="Username">
+      <Input type="text" v-model="formInline.user" placeholder="用户名">
         <Icon type="ios-person-outline" slot="prepend"></Icon>
       </Input>
     </FormItem>
     <FormItem prop="password">
-      <Input type="password" v-model="formInline.password" placeholder="Password">
+      <Input type="password" v-model="formInline.password" placeholder="密码">
         <Icon type="ios-lock-outline" slot="prepend"></Icon>
       </Input>
     </FormItem>
@@ -18,6 +18,7 @@
 
 <script>
     import Vue from 'vue';
+    import {mapActions} from 'vuex';
     import { Form, FormItem,Input,Icon,Button } from 'iview';
     Vue.component('Form', Form);
     Vue.component('FormItem', FormItem);
@@ -35,24 +36,36 @@
           },
           ruleInline: {
             user: [
-              { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+              { required: true, message: '请输入用户名', trigger: 'blur' }
             ],
             password: [
-              { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-              { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+              { required: true, message: '请输入密码', trigger: 'blur' },
+              { type: 'string', min: 6, message: '密码必须大于6位', trigger: 'blur' }
             ]
           }
         }
       },
       methods: {
+        ...mapActions(['login']),
         handleSubmit(name) {
           this.$refs[name].validate((valid) => {
             if (valid) {
-              this.$Message.success('Success!');
-            } else {
-              this.$Message.error('Fail!');
+              const {user,password} = this.formInline;
+              this.login({
+                user,password
+              }).then(function (data) {
+                console.log(data)
+              },function () {
+                this.onFail();
+              });
             }
           })
+        },
+        onSuccess(){
+
+        },
+        onFail(){
+
         }
       }
     }
