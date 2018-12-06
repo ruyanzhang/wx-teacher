@@ -11,7 +11,7 @@
       </Input>
     </FormItem>
     <FormItem>
-      <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
+      <Button type="primary" @click="handleSubmit('formInline')">{{loading ? '登陆中...':'登录'}}</Button>
     </FormItem>
   </Form>
 </template>
@@ -19,7 +19,7 @@
 <script>
     import Vue from 'vue';
     import {mapActions} from 'vuex';
-    import { Form, FormItem,Input,Icon,Button } from 'iview';
+    import { Form, FormItem,Input,Icon,Button} from 'iview';
     Vue.component('Form', Form);
     Vue.component('FormItem', FormItem);
     Vue.component('Input', Input);
@@ -27,9 +27,9 @@
     Vue.component('Button', Button);
     export default {
       name: "login",
-      component:[Form, FormItem,Input,Icon,Button],
       data () {
         return {
+          loading:false,
           formInline: {
             user: '',
             password: ''
@@ -50,22 +50,30 @@
         handleSubmit(name) {
           this.$refs[name].validate((valid) => {
             if (valid) {
+              const vm = this;
               const {user,password} = this.formInline;
-              this.login({
+              vm.loading = true;
+              vm.login({
                 user,password
               }).then(function (data) {
-                console.log(data)
-              },function () {
-                this.onFail();
+                vm.onSuccess(data)
+              },function (data) {
+                vm.onFail(data);
+              }).finally(function () {
+                vm.onFinally();
               });
             }
           })
         },
-        onSuccess(){
-
+        onFinally(){
+          this.loading = false;
         },
-        onFail(){
-
+        onSuccess(data){
+          window.localStorage.setItem('token',data.token);
+          this.$router.push({name: 'home'});
+        },
+        onFail(data){
+          this.$Message.error(data)
         }
       }
     }
