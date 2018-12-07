@@ -20,6 +20,7 @@
     import Vue from 'vue';
     import {mapActions} from 'vuex';
     import { Form, FormItem,Input,Icon,Button} from 'iview';
+    import {setToken} from "../utils";
     Vue.component('Form', Form);
     Vue.component('FormItem', FormItem);
     Vue.component('Input', Input);
@@ -56,24 +57,15 @@
               vm.login({
                 user,password
               }).then(function (data) {
-                vm.onSuccess(data)
+                setToken(data.token);
+                vm.$router.push({name: 'home'});
               },function (data) {
-                vm.onFail(data);
+                vm.$Message.error(data);
               }).finally(function () {
-                vm.onFinally();
+                vm.loading = false;
               });
             }
           })
-        },
-        onFinally(){
-          this.loading = false;
-        },
-        onSuccess(data){
-          window.localStorage.setItem('token',data.token);
-          this.$router.push({name: 'home'});
-        },
-        onFail(data){
-          this.$Message.error(data)
         }
       }
     }

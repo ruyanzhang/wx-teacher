@@ -15,7 +15,7 @@ const mutations = {
     state.login_token = localStorage.getItem('token');
     state.login_name = localStorage.getItem('name');
   },
-  updateUser (state, payload) {
+  updateState (state, payload) {
     state = {...state,...payload};
   },
   logout (state) {
@@ -24,19 +24,19 @@ const mutations = {
     state.user_name = '';
     state.user_password = '';
   }
-}
+};
 
 const actions = {
   async login ({ commit }, payload) {
-    const userData = await login(payload);
-    if(userData.status===200 && userData.statusText==='OK'){
+    const data = await login(payload);
+    if(data.status===200 && data.statusText==='OK'){
       commit({
-        type: 'updateUser',
-        payload:userData.data
+        type: 'updateState',
+        payload:data.data
       });
-      return Promise.resolve(userData.data);
+      return Promise.resolve(data.data);
     }else{
-      return Promise.resolve(userData.msg);
+      return Promise.resolve(data.msg);
     }
   },
 };

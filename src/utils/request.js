@@ -4,7 +4,7 @@ export function request (url, options) {
   return axios({
     url: url,
     method: options.method || 'get',
-    data: options.data || {},
+    params: options.data || {},
   }).then((data) => {
     return data
   }).catch(function (error) {
@@ -15,7 +15,7 @@ export function request (url, options) {
 export function requestPost (url, options) {
   return axios({
     url: url,
-    method: options.method || 'get',
+    method: options.method || 'post',
     data: JSON.stringify(options.data) || {},
     headers: {
       'Content-Type': 'application/json'

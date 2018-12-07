@@ -4,7 +4,9 @@ import router from './router'
 import store from './store'
 import {Message} from 'iview'
 import 'iview/dist/styles/iview.css';
-import './mock/mock.js';
+import '@/css/style.less';
+import '@/css/calendar.less';
+import '@/mock/mock.js';
 Vue.config.productionTip = false;
 Vue.prototype.$Message = Message;
 new Vue({

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {getToken} from "./utils";
+
 Vue.use(Router);
 const router = new Router({
   routes: [
@@ -40,7 +42,7 @@ const router = new Router({
 });
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!window.localStorage.getItem('token')) {
+    if (!getToken('token')) {
       next({
         path: '/login',
         query: { redirect: to.fullPath }

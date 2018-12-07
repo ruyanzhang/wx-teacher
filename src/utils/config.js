@@ -9,6 +9,8 @@ export default {
   needLogin: true,
   api: {
     userLogin: `${APIV1}/login`, //登录
+    getDayUrl:`${APIV1}/teacher/day`,//按天获取上课
+    getMonthUrl:`${APIV1}/teacher/month`,//按月获取上课
 
 
 
@@ -29,8 +31,7 @@ export default {
     updateReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
     sendReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
     saveReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
-    checkByMonthUrl:`${APIV1}/user/teacher/arrangements/count`,//按月获取上课数
-    checkByDayUrl:`${APIV1}/user/teacher/arrangements`,//按天获取上课数
+
     sendParentYZMUrl:`${APIV1}/user/code`, //家长端验证码接口
     isParentBindUrl:`${APIV1}/user/student/is_bind`, //判斷学生是否綁定
     parentLoginUrl:`${APIV1}/user/student/bind`, //家长端绑定接口
