@@ -1,31 +1,21 @@
 import {request,requestPost} from '../utils/request'
 import config from  '../utils/config'
-const {reportList,mistakeList,mistakeCourse,studentListUrl} = config.api;
+const {reportListUrl,mistakeListUrl} = config.api;
 
 export async function getReportList (data) {
-  return request(reportList,{
+  return request(reportListUrl,{
     method: 'get',
     data,
   })
 }
 export async function getMistakeList (data) {
-  return request(mistakeList,{
+  console.log(data)
+  return request(mistakeListUrl,{
     method: 'get',
     data,
   })
 }
-export async function getStudentList (data) {
-  return request(studentListUrl,{
-    method: 'get',
-    data,
-  })
-}
-export async function getMistakeCourse (data) {
-  return request(mistakeCourse,{
-    method: 'get',
-    data,
-  })
-}
+
 
 
 

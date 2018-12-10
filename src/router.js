@@ -8,13 +8,19 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/home/Home.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/home',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/home/Home.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/mistake',
+      name: 'mistake',
+      component: () => import(/* webpackChunkName: "about" */ './views/mistake/Mistake.vue'),
       meta: { requiresAuth: true }
     },
     {
@@ -42,7 +48,7 @@ const router = new Router({
 });
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!getToken('token')) {
+    if (!getToken('token') || getToken('token')==='undefined') {
       next({
         path: '/login',
         query: { redirect: to.fullPath }

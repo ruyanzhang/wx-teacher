@@ -1,4 +1,5 @@
-import {login,loginOut} from '../../services/login'
+import {login,loginOut} from '../../services/login';
+import {removeToken} from '@/utils/index';
 const state = {
   user_password: '',
   user_name: '',
@@ -11,15 +12,14 @@ const getters = {
 
 const mutations = {
   getLocalUser (state) {
-    state.login_email = localStorage.getItem('email');
     state.login_token = localStorage.getItem('token');
     state.login_name = localStorage.getItem('name');
   },
   updateState (state, payload) {
-    state = {...state,...payload};
+
   },
   logout (state) {
-    localStorage.removeItem('token');
+    removeToken();
     state.loginError = '';
     state.user_name = '';
     state.user_password = '';

@@ -11,7 +11,8 @@ export default {
     userLogin: `${APIV1}/login`, //登录
     getDayUrl:`${APIV1}/teacher/day`,//按天获取上课
     getMonthUrl:`${APIV1}/teacher/month`,//按月获取上课
-
+    reportListUrl:`${APIV1}/teacher/report_list`,//学习报告
+    mistakeListUrl:`${APIV1}/teacher/mistake_list`,//错题集
 
 
 
@@ -36,8 +37,7 @@ export default {
     isParentBindUrl:`${APIV1}/user/student/is_bind`, //判斷学生是否綁定
     parentLoginUrl:`${APIV1}/user/student/bind`, //家长端绑定接口
     parentLogoutUrl:`${APIV1}/user/student/unbind`,//家长端解绑接口
-    reportList:`${APIV1}/user/student/studyreport/list`,//家长端学习报告list接口
-    mistakeList:`${APIV1}/user/student/error_subject_list`,//家长端学习报告list接口
+
     sendParentReportUrl:`${APIV1}/user/student/studyreport/comment`, //家长端发送学习报告
     parentComment:`${APIV1}/api/e_lecture/one_to_one/studyreport/comment`, //获取家长评价
     mistakeCase:`${APIV1}/user/student/studyreport/error_subject`, //家长端发送学习报告
