@@ -1,8 +1,10 @@
 <template>
-  <div class="home">
+  <div class="mistake" style="padding: 10px;">
     <Tabs :animated="false" type="card">
       <TabPane label="学习报告">
+        <NoData v-if="mistakeGradeCourse===null || mistakeList===null" text="当前没有错题"></NoData>
         <MistakeList
+          v-else
           :mistakeLoading="mistakeLoading"
           :mistakeGradeCourseId="mistakeGradeCourseId"
           :mistakeStatus="mistakeStatus"
@@ -23,44 +25,50 @@
   import {mapActions,mapState,mapMutations} from 'vuex';
   import MistakeList from './MistakeList';
   import ReportList from './ReportList';
-  import {getToken} from "../../utils";
+  import NoData from '@/components/no-data';
   import moment from 'moment';
   import {Tabs,TabPane} from 'iview';
   Vue.component('Tabs', Tabs);
   Vue.component('TabPane', TabPane);
   export default {
     name: 'mistake',
-    components:{MistakeList},
+    components:{MistakeList,NoData},
     data(){
       return {
 
       }
     },
     computed:{
-      ...mapState(['mistakeLoading','mistakePage','mistakeList','mistakeGradeCourse','mistakeGradeCourseId','mistakeStatus',
-        'mistakeTimeType','reportPage'])
+      ...mapState({
+        'mistakeList':(state)=>state.mistake.mistakeList,
+        'mistakeLoading':(state)=>state.mistake.mistakeLoading,
+        'mistakePage':(state)=>state.mistake.mistakePage,
+        'mistakeGradeCourse':(state)=>state.mistake.mistakeGradeCourse,
+        'mistakeGradeCourseId':(state)=>state.mistake.mistakeGradeCourseId,
+        'mistakeStatus':(state)=>state.mistake.mistakeStatus,
+        'mistakeTimeType':(state)=>state.mistake.mistakeTimeType,
+        'reportPage':(state)=>state.mistake.reportPage
+      })
     },
     methods:{
-      ...mapActions(['getReportList','getMistakeList']),
-      ...mapMutations(['showLoading','hideLoading']),
+      ...mapActions(['getReportList','getMistakeList','getMistakeCourse']),
+      ...mapMutations(['showLoading','hideLoading','updateState']),
       moment:moment,
-      reportLoadData(){
+      reportLoadData(data={}){
         const vm = this;
-        const token = getToken();
-        const reportPage = this.reportPage;
         vm.showLoading({type:'report'});
-        this.getReportList({token,reportPage}).then(function () {},function (data) {
+        this.getReportList(data).then(function () {},function (data) {
           vm.$Message.error(data);
         }).finally(function () {
-          vm.showLoading({type:'report'});
+          vm.hideLoading({type:'report'});
         });
       },
-      mistakeLoadData(data){
+      async mistakeLoadData(data={}){
         const vm = this;
-        const token = getToken();
-        const mistakePage = this.mistakePage;
         vm.showLoading({type:'mistake'});
-        this.getMistakeList({token,mistakePage,...data}).then(function (data) {},function (data) {
+        const mistakeCourse = await this.getMistakeCourse();
+        if(!mistakeCourse){return false;}
+        this.getMistakeList(data).then(function (data) {},function (data) {
           vm.$Message.error(data);
         }).finally(function () {
           vm.hideLoading({type:'mistake'});
@@ -69,7 +77,11 @@
       changeSearch(type,value){
         const data = {};
         data[type] = value;
-        this.mistakeLoadData(data);
+        this.updateState({
+          type:type,
+          ...data
+        });
+        this.mistakeLoadData();
       }
     },
     created() {

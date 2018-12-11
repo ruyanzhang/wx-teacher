@@ -35,10 +35,7 @@
         <TabPane label="月课程" name="month">
           <Loading v-if="monthLoading"></Loading>
           <div v-else>
-            <div v-if="monthListData.length===0">
-              <img :src="require('@/images/no-timeable.png')"/>
-              <p>当前月无排课</p>
-            </div>
+            <NoData v-if="monthListData.length===0" text="当前月无排课"></NoData>
             <ul v-else>
               <li v-for="(item,index) in monthListData" :key="index" style="border-bottom: 1px solid #dddddd;">
                 <div>
@@ -66,6 +63,7 @@
   import {mapActions,mapState,mapGetters} from 'vuex';
   import Calendar from 'vue-calendar-component';
   import Loading from '@/components/loading';
+  import NoData  from '@/components/no-data';
   import {getToken} from "../../utils";
   import moment from 'moment';
   import {Tabs,TabPane} from 'iview';
@@ -73,7 +71,7 @@
   Vue.component('TabPane', TabPane);
   export default {
     name: 'home',
-    components:{Calendar,Loading},
+    components:{Calendar,Loading,NoData},
     data(){
       return {
         dayLoading:false,

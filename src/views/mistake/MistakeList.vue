@@ -3,9 +3,9 @@
     <Row :gutter="8">
       <Col span="8">
         <Select :value="mistakeGradeCourseId" @on-change="(value)=>changeSearch('mistakeGradeCourseId',value)">
-          <Option value="0">语文</Option>
-          <Option value="1">数学</Option>
-          <Option value="2">英语</Option>
+          <Option v-for="(item,index) in mistakeGradeCourse"
+                  :value="item.gradeCourseId"
+                  :key="index">{{item.gradeCourseName}}</Option>
         </Select>
       </Col>
       <Col span="8">

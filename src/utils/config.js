@@ -13,7 +13,7 @@ export default {
     getMonthUrl:`${APIV1}/teacher/month`,//按月获取上课
     reportListUrl:`${APIV1}/teacher/report_list`,//学习报告
     mistakeListUrl:`${APIV1}/teacher/mistake_list`,//错题集
-
+    mistakeCourseUrl:`${APIV1}/user/student/gradecourse`, //获取错题集科目
 
 
     qiniuken:`${APIV1}/teacherplatform/api/qidicloud/courseware/get_qiniu_token`, //获取qiniu的token
@@ -40,8 +40,7 @@ export default {
 
     sendParentReportUrl:`${APIV1}/user/student/studyreport/comment`, //家长端发送学习报告
     parentComment:`${APIV1}/api/e_lecture/one_to_one/studyreport/comment`, //获取家长评价
-    mistakeCase:`${APIV1}/user/student/studyreport/error_subject`, //家长端发送学习报告
-    mistakeCourse:`${APIV1}/user/student/gradecourse`, //家长端获取错题集科目
+    mistakeCase:`${APIV1}/user/student/studyreport/error_subject`, //家长端发送学习报
     parentCheckReport:`${APIV1}/user/student/studyreport/done/get`, //家长端学习报告接口
     studentListUrl:`${APIV1}/user/student/list`, //家长端绑定那些学生接口
   },

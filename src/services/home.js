@@ -4,13 +4,13 @@ const {getDayUrl,getMonthUrl } = config.api;
 
 export async function getMonth (data) {
   return requestPost(getMonthUrl,{
-    method: 'get',
+    method: 'post',
     data
   })
 }
 export async function getDay (data) {
   return requestPost(getDayUrl,{
-    method: 'get',
+    method: 'post',
     data
   })
 }

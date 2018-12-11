@@ -1,6 +1,6 @@
 import Mock from 'mockjs';
 import config from '../utils/config';
-const {userLogin,getDayUrl,getMonthUrl,reportList,mistakeList} = config.api;
+const {userLogin,getDayUrl,getMonthUrl,reportListUrl,mistakeListUrl,mistakeCourseUrl} = config.api;
 const Random = Mock.Random;
 Mock.mock(userLogin,{
   "user":/[a-z]{6,20}/,
@@ -32,7 +32,7 @@ Mock.mock(getMonthUrl,{
     }
   ]
 });
-Mock.mock(reportList,{
+Mock.mock(reportListUrl,{
   "count|0-20":15,
   "list|0-20": [
     {
@@ -45,7 +45,7 @@ Mock.mock(reportList,{
     }
   ]
 });
-Mock.mock(mistakeList,{
+Mock.mock(mistakeListUrl,{
   "count|0-20":15,
   "list|0-20": [
     {
@@ -58,3 +58,12 @@ Mock.mock(mistakeList,{
     }
   ]
 });
+Mock.mock(mistakeCourseUrl,'get',{
+  "list|1-5":[
+    {
+      "gradeCourseName|1":['一年级语文','初一语文','一年级数学','初二化学','四年级英语','高中地理'],
+      "gradeCourseId":/\d{20}/,
+    }
+  ]
+});
+
