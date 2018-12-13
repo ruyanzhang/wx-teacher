@@ -4,7 +4,7 @@ const {reportListUrl,mistakeListUrl,mistakeCourseUrl} = config.api;
 
 export async function getReportList (data) {
   return requestPost(reportListUrl,{
-    method: 'get',
+    method: 'post',
     data,
   })
 }
@@ -17,7 +17,7 @@ export async function getMistakeList (data) {
 
 export async function getMistakeCourse (data) {
   return requestPost(mistakeCourseUrl,{
-    method: 'get',
+    method: 'post',
     data,
   })
 }

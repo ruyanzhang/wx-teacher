@@ -2,12 +2,12 @@ import {getReportList,getMistakeList,getMistakeCourse} from '../../services/mist
 import {getToken} from "../../utils";
 const state = {
   mistakeLoading:false,
-  mistakePage:1,
+  mistakePage:0,
   mistakeList:[],
   mistakeGradeCourseId:'',
   mistakeGradeCourse:[],
-  mistakeStatus:0,
-  mistakeTimeType:1,
+  mistakeStatus:'0',
+  mistakeTimeType:'1',
   reportPage:1,
   reportList:[],
   reportLoading:false
@@ -21,18 +21,23 @@ const mutations = {
   updateState (state, payload) {
     if(payload.type==='mistakeGradeCourseId'){
       state.mistakeGradeCourseId = payload.mistakeGradeCourseId;
+      state.mistakePage = payload.mistakePage;
     }else if(payload.type==='mistakeStatus'){
       state.mistakeStatus = payload.mistakeStatus;
+      state.mistakePage = payload.mistakePage;
     }else if(payload.type==='mistakeTimeType'){
       state.mistakeTimeType = payload.mistakeTimeType;
+      state.mistakePage = payload.mistakePage;
     }else if(payload.type==='mistakeGradeCourse'){
       state.mistakeGradeCourse = payload.mistakeGradeCourse;
       state.mistakeGradeCourseId = payload.mistakeGradeCourse ? payload.mistakeGradeCourse[0].gradeCourseId : '';
     }else if(payload.type==='mistakeList'){
       state.mistakeList = payload.mistakeList;
+      state.mistakePage = payload.mistakePage;
     }else if(payload.type==='reportList'){
       state.reportList = payload.reportList;
     }
+
   },
   showLoading(state,payload){
     if(payload.type==='mistake'){
@@ -67,10 +72,12 @@ const actions = {
     const token = getToken();
     const {mistakeGradeCourseId,mistakePage,mistakeStatus,mistakeTimeType} = state;
     const data = await getMistakeList({mistakeGradeCourseId,mistakePage,mistakeStatus,mistakeTimeType,token,...payload});
+    commit('updateState',{...payload});
     if(data.status===200 && data.statusText==='OK'){
       commit('updateState',{
         type:'mistakeList',
-        mistakeList:data.data.list
+        mistakePage:payload.mistakePage,
+        mistakeList:payload.mistakePage===1 ? data.data.list : state.mistakeList.concat(data.data.list)
       });
       return Promise.resolve(data.data);
     }else{

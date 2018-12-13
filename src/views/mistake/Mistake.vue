@@ -1,23 +1,25 @@
 <template>
-  <div class="mistake" style="padding: 10px;">
-    <Tabs :animated="false" type="card">
-      <TabPane label="学习报告">
-        <NoData v-if="mistakeGradeCourse===null || mistakeList===null" text="当前没有错题"></NoData>
-        <MistakeList
-          v-else
-          :mistakeLoading="mistakeLoading"
-          :mistakeGradeCourseId="mistakeGradeCourseId"
-          :mistakeStatus="mistakeStatus"
-          :mistakeTimeType="mistakeTimeType"
-          :mistakeGradeCourse="mistakeGradeCourse"
-          :mistakeList="mistakeList"
-          @mistakeLoadData="mistakeLoadData"
-          @changeSearch="changeSearch"></MistakeList>
-      </TabPane>
-      <TabPane label="错题集">
+  <div class="mistake">
+    <div class="tab-wrapper">
+      <Tabs :animated="false">
+        <TabPane label="学习报告">
+          <NoData v-if="mistakeGradeCourse===null || mistakeList===null" text="当前没有错题"></NoData>
+          <MistakeList
+            v-else
+            :mistakeLoading="mistakeLoading"
+            :mistakeGradeCourseId="mistakeGradeCourseId"
+            :mistakeStatus="mistakeStatus"
+            :mistakeTimeType="mistakeTimeType"
+            :mistakeGradeCourse="mistakeGradeCourse"
+            :mistakeList="mistakeList"
+            @searchMistakeList="searchMistakeList"
+            @changeSearch="changeSearch"></MistakeList>
+        </TabPane>
+        <TabPane label="错题集">
 
-      </TabPane>
-    </Tabs>
+        </TabPane>
+      </Tabs>
+    </div>
   </div>
 </template>
 <script>
@@ -52,7 +54,7 @@
     },
     methods:{
       ...mapActions(['getReportList','getMistakeList','getMistakeCourse']),
-      ...mapMutations(['showLoading','hideLoading','updateState']),
+      ...mapMutations(['showLoading','hideLoading']),
       moment:moment,
       reportLoadData(data={}){
         const vm = this;
@@ -68,7 +70,14 @@
         vm.showLoading({type:'mistake'});
         const mistakeCourse = await this.getMistakeCourse();
         if(!mistakeCourse){return false;}
-        this.getMistakeList(data).then(function (data) {},function (data) {
+        vm.searchMistakeList(data);
+      },
+      searchMistakeList(data={}){
+        const vm = this;
+        this.getMistakeList({
+          ...data,
+          mistakePage:data.mistakePage ? data.mistakePage : vm.mistakePage+1
+        }).then(function () {},function (data) {
           vm.$Message.error(data);
         }).finally(function () {
           vm.hideLoading({type:'mistake'});
@@ -77,11 +86,7 @@
       changeSearch(type,value){
         const data = {};
         data[type] = value;
-        this.updateState({
-          type:type,
-          ...data
-        });
-        this.mistakeLoadData();
+        this.searchMistakeList({mistakePage:1,type:type,...data});
       }
     },
     created() {

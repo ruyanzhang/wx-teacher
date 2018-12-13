@@ -1,7 +1,55 @@
+html,body{
+  height: 100%;
+}
 li{
   list-style:none;
 }
 img{
   max-width: 100%;
 }
+.ovh{
+  overflow: hidden;
+}
+.flex1{
+  flex: 1;
+}
+.ptb10{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.mt10{
+  margin-top: 10px;
+}
+//tab样式
+.tab-wrapper {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  .ivu-tabs{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .ivu-tabs-content{
+    flex: 1;
+    overflow: hidden;
+  }
+  .ivu-tabs-tabpane{
+    height: 100%;
+  }
+}
 
+
+// 滚动条样式
+.scroll-wrapper{
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+.mistake-content{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
