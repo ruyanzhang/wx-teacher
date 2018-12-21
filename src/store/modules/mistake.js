@@ -8,6 +8,7 @@ const state = {
   mistakeGradeCourse:[],
   mistakeStatus:'0',
   mistakeTimeType:'1',
+  hasMistake:true,
   reportPage:1,
   reportList:[],
   reportLoading:false
@@ -34,6 +35,7 @@ const mutations = {
     }else if(payload.type==='mistakeList'){
       state.mistakeList = payload.mistakeList;
       state.mistakePage = payload.mistakePage;
+      state.hasMistake = payload.hasMistake;
     }else if(payload.type==='reportList'){
       state.reportList = payload.reportList;
     }
@@ -77,6 +79,7 @@ const actions = {
       commit('updateState',{
         type:'mistakeList',
         mistakePage:payload.mistakePage,
+        hasMistake: data.data.list && data.data.list.length > 0,
         mistakeList:payload.mistakePage===1 ? data.data.list : state.mistakeList.concat(data.data.list)
       });
       return Promise.resolve(data.data);

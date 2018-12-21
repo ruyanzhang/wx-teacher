@@ -6,6 +6,7 @@
           <NoData v-if="mistakeGradeCourse===null || mistakeList===null" text="当前没有错题"></NoData>
           <MistakeList
             v-else
+            :hasMistake="hasMistake"
             :mistakeLoading="mistakeLoading"
             :mistakeGradeCourseId="mistakeGradeCourseId"
             :mistakeStatus="mistakeStatus"
@@ -42,6 +43,7 @@
     },
     computed:{
       ...mapState({
+        'hasMistake':(state)=>state.mistake.hasMistake,
         'mistakeList':(state)=>state.mistake.mistakeList,
         'mistakeLoading':(state)=>state.mistake.mistakeLoading,
         'mistakePage':(state)=>state.mistake.mistakePage,
@@ -67,13 +69,14 @@
       },
       async mistakeLoadData(data={}){
         const vm = this;
-        vm.showLoading({type:'mistake'});
         const mistakeCourse = await this.getMistakeCourse();
         if(!mistakeCourse){return false;}
         vm.searchMistakeList(data);
       },
       searchMistakeList(data={}){
         const vm = this;
+        if(vm.mistakeLoading){return false;}
+        vm.showLoading({type:'mistake'});
         this.getMistakeList({
           ...data,
           mistakePage:data.mistakePage ? data.mistakePage : vm.mistakePage+1

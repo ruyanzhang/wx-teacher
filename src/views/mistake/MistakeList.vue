@@ -50,6 +50,7 @@
             </li>
           </ul>
           <Loading class="mt10" v-if="mistakeLoading"></Loading>
+          <div v-else-if="hasMistake===false">暂无更多数据！</div>
         </div>
 
       </scroll>
@@ -68,7 +69,7 @@
   Vue.component('Option', Option);
   export default {
     name: 'mistakeList',
-    props:['mistakeLoading','mistakeList','mistakeGradeCourse','mistakeGradeCourseId','mistakeStatus','mistakeTimeType'],
+    props:['mistakeLoading','mistakeList','mistakeGradeCourse','mistakeGradeCourseId','mistakeStatus','mistakeTimeType','hasMistake'],
     components:{Scroll,Loading},
     data(){
       return {
