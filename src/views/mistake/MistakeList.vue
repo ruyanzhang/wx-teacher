@@ -1,5 +1,6 @@
 <template>
   <div class="mistake-content">
+    <p style="display: none;">{{curTab}}</p>
     <div style="padding: 0 10px;">
       <Row :gutter="8">
         <Col span="8">
@@ -69,10 +70,11 @@
   Vue.component('Option', Option);
   export default {
     name: 'mistakeList',
-    props:['mistakeLoading','mistakeList','mistakeGradeCourse','mistakeGradeCourseId','mistakeStatus','mistakeTimeType','hasMistake'],
+    props:['curTab','mistakeLoading','mistakeList','mistakeGradeCourse','mistakeGradeCourseId','mistakeStatus','mistakeTimeType','hasMistake'],
     components:{Scroll,Loading},
     data(){
       return {
+
       }
     },
     computed:{

@@ -1,79 +1,69 @@
 <template>
-  <div class="home">
-    <Tabs :animated="false" type="card">
-      <TabPane label="学习报告">
-        <Loading v-if="reportLoading"></Loading>
-        <div v-else>
-          <scroll class="wrapper"
-                :data="reportList"
-                pulldown="pulldown"
-                @pulldown="reportLoadData" style="height: 300px;">
-          <ul class="content">
-            <li v-for="(item,index) in reportList" :key="index">{{item}}</li>
+  <div class="report-content">
+    <div class="flex1 ovh ptb10">
+      <scroll class="scroll-wrapper"
+              :data="reportList"
+              :pullup="true"
+              @scrollToEnd="scrollToEnd">
+        <div class="scroll-wrapper-content">
+          <ul>
+            <li>
+              <div>
+                <p>{obj.classCourseName}</p>
+                <p>{obj.studentName}</p>
+                <p>{obj.lessonTime}</p>
+              </div>
+              <div>
+                <p>{obj.submitDate.substr(0,10)}</p>
+                <p>{obj.submitDate.substr(10)}提交</p>
+              </div>
+              <div>
+                <div>
+                  <p>{star(obj.one2oneEvaluateDTO.score)}</p>
+                  <p>{obj.one2oneEvaluateDTO.evaluation}</p>
+                </div>
+              </div>
+            </li>
           </ul>
-          <div class="loading-wrapper">加载中...</div>
-        </scroll>
+          <Loading class="mt10" v-if="reportLoading"></Loading>
+          <div v-else-if="hasReport===false">暂无更多数据！</div>
         </div>
-      </TabPane>
-      <TabPane label="错题集">
-        <Loading v-if="mistakeLoading"></Loading>
-        <div v-else>
-        </div>
-      </TabPane>
-    </Tabs>
+
+      </scroll>
+    </div>
   </div>
 </template>
 <script>
   import Vue from 'vue';
-  import {mapActions,mapState,mapGetters} from 'vuex';
   import Scroll from '@/components/scroll';
   import Loading from '@/components/loading';
-  import {getToken} from "../../utils";
   import moment from 'moment';
-  import {Tabs,TabPane} from 'iview';
-  Vue.component('Tabs', Tabs);
-  Vue.component('TabPane', TabPane);
   export default {
-    name: 'mistake',
+    name: 'reportList',
+    props:['reportLoading','reportList','hasReport'],
     components:{Scroll,Loading},
     data(){
       return {
-        reportLoading:false,
-        mistakeLoading:false
       }
     },
     computed:{
-      ...mapState(['mistakePage','mistakeList','reportPage','reportList'])
+
     },
     methods:{
-      ...mapActions(['getReportList','getMistakeList']),
       moment:moment,
-      reportLoadData(){
-        const vm = this;
-        const token = getToken();
-        const mistakePage = this.mistakePage;
-        vm.reportLoading = true;
-        this.getReportList({token,mistakePage}).then(function () {},function (data) {
-          vm.$Message.error(data);
-        }).finally(function () {
-          vm.reportLoading = false;
-        });
-      },
-      mistakeLoadData(){
-        const vm = this;
-        const token = getToken();
-        const reportPage = this.reportPage;
-        vm.mistakeLoading = true;
-        this.getMistakeList({token,reportPage}).then(function (data) {},function (data) {
-          vm.$Message.error(data);
-        }).finally(function () {
-          vm.mistakeLoading = false;
-        });
+      scrollToEnd(){
+        this.$emit('searchReportList');
       }
     },
     created() {
-      this.reportLoadData();
-      this.mistakeLoadData();
+
     }
   }
 </script>
+<style scoped>
+  .report-content{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

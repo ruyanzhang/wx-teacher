@@ -78,7 +78,13 @@
       // 保证在DOM渲染完毕后初始化better-scroll
       setTimeout(() => {
         this._initScroll()
-      }, 20)
+      }, 20);
+    },
+    updated(){
+      this.$nextTick(function () {
+        console.log(555)
+        this.refresh();
+      })
     },
     methods: {
       _initScroll() {
@@ -91,7 +97,6 @@
           click: this.click,
           scrollX: this.scrollX
         });
-
         // 是否派发滚动事件
         if (this.listenScroll) {
           this.scroll.on('scroll', (pos) => {

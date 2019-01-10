@@ -11,7 +11,8 @@ const state = {
   hasMistake:true,
   reportPage:1,
   reportList:[],
-  reportLoading:false
+  reportLoading:false,
+  hasReport:true,
 };
 
 const getters = {
@@ -38,6 +39,8 @@ const mutations = {
       state.hasMistake = payload.hasMistake;
     }else if(payload.type==='reportList'){
       state.reportList = payload.reportList;
+      state.reportPage = payload.reportPage;
+      state.hasReport = payload.hasReport;
     }
 
   },
@@ -63,7 +66,9 @@ const actions = {
     if(data.status===200 && data.statusText==='OK'){
       commit('updateState',{
         type:'reportList',
-        reportList:data.data.list
+        mistakePage:payload.reportPage,
+        hasMistake: data.data.list && data.data.list.length > 0,
+        mistakeList:payload.reportPage===1 ? data.data.list : state.reportList.concat(data.data.list)
       });
       return Promise.resolve(data.data);
     }else{
