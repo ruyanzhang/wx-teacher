@@ -13,7 +13,8 @@ export default {
     getMonthUrl:`${APIV1}/teacher/month`,//按月获取上课
     reportListUrl:`${APIV1}/teacher/report_list`,//学习报告
     mistakeListUrl:`${APIV1}/teacher/mistake_list`,//错题集
-    mistakeCourseUrl:`${APIV1}/user/student/gradecourse`, //获取错题集科目
+    mistakeCourseUrl:`${APIV1}/student/gradecourse`, //获取错题集科目
+    notCheckReportUrl:`${APIV1}/student/notCheckReport`, //未核录报告
 
 
     qiniuken:`${APIV1}/teacherplatform/api/qidicloud/courseware/get_qiniu_token`, //获取qiniu的token
@@ -28,7 +29,6 @@ export default {
     learningCase:`${APIV1}/user/coursewareonline/get`,
     checkReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/get_study_report`,
     coursewareId:`${APIV1}/user/coursewareonline/judge`,
-    notCheckReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/get_study_report`,
     updateReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
     sendReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
     saveReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,

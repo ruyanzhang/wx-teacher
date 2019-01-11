@@ -3,16 +3,14 @@
     <div class="tab-wrapper">
       <Tabs :animated="false" value="report" @on-click="changeTab">
         <TabPane label="学习报告" name="report">
-
-          <!--<NoData v-if="reportList===null" text="当前没有学习报告"></NoData>-->
-          <!--<ReportList-->
-            <!--v-else-->
-            <!--:hasReport="hasReport"-->
-            <!--:reportLoading="reportLoading"-->
-            <!--:reportList="reportList"-->
-            <!--@searchReportList="searchReportList"-->
-          <!--&gt;</ReportList>-->
-
+          <NoData v-if="reportList===null" text="当前没有学习报告"></NoData>
+          <ReportList
+            v-else
+            :hasReport="hasReport"
+            :reportLoading="reportLoading"
+            :reportList="reportList"
+            @searchReportList="searchReportList">
+          </ReportList>
         </TabPane>
         <TabPane label="错题集" name="mistake">
           <NoData v-if="mistakeGradeCourse===null || mistakeList===null" text="当前没有错题"></NoData>
@@ -73,12 +71,7 @@
       moment:moment,
       reportLoadData(data={}){
         const vm = this;
-        vm.showLoading({type:'report'});
-        this.getReportList(data).then(function () {},function (data) {
-          vm.$Message.error(data);
-        }).finally(function () {
-          vm.hideLoading({type:'report'});
-        });
+        vm.searchReportList(data);
       },
       async mistakeLoadData(data={}){
         const vm = this;

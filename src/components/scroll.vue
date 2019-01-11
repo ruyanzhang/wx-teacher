@@ -82,7 +82,6 @@
     },
     updated(){
       this.$nextTick(function () {
-        console.log(555)
         this.refresh();
       })
     },

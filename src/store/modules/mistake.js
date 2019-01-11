@@ -9,7 +9,7 @@ const state = {
   mistakeStatus:'0',
   mistakeTimeType:'1',
   hasMistake:true,
-  reportPage:1,
+  reportPage:0,
   reportList:[],
   reportLoading:false,
   hasReport:true,
@@ -66,9 +66,9 @@ const actions = {
     if(data.status===200 && data.statusText==='OK'){
       commit('updateState',{
         type:'reportList',
-        mistakePage:payload.reportPage,
-        hasMistake: data.data.list && data.data.list.length > 0,
-        mistakeList:payload.reportPage===1 ? data.data.list : state.reportList.concat(data.data.list)
+        reportPage:payload.reportPage,
+        hasReport: data.data.list && data.data.list.length > 0,
+        reportList:payload.reportPage===1 ? data.data.list : state.reportList.concat(data.data.list)
       });
       return Promise.resolve(data.data);
     }else{

@@ -1,26 +1,25 @@
 <template>
   <div class="report-content">
-    <div class="flex1 ovh ptb10">
+    <div class="flex1 ovh pb10">
       <scroll class="scroll-wrapper"
               :data="reportList"
               :pullup="true"
               @scrollToEnd="scrollToEnd">
         <div class="scroll-wrapper-content">
           <ul>
-            <li>
+            <li v-for="(item,index) in reportList" :key="index" @click="()=>goToCheck(item.id)">
               <div>
-                <p>{obj.classCourseName}</p>
-                <p>{obj.studentName}</p>
-                <p>{obj.lessonTime}</p>
+                <p>{{item.classCourseName}}</p>
+                <p>{{item.studentName}}</p>
+                <p>{{item.lessonTime}}</p>
               </div>
               <div>
-                <p>{obj.submitDate.substr(0,10)}</p>
-                <p>{obj.submitDate.substr(10)}提交</p>
+                <p>{{item.submitDate}} 提交</p>
               </div>
               <div>
                 <div>
-                  <p>{star(obj.one2oneEvaluateDTO.score)}</p>
-                  <p>{obj.one2oneEvaluateDTO.evaluation}</p>
+                  <p><Rate disabled :value="item.score" /></p>
+                  <p>{{item.evaluation}}</p>
                 </div>
               </div>
             </li>
@@ -38,6 +37,8 @@
   import Scroll from '@/components/scroll';
   import Loading from '@/components/loading';
   import moment from 'moment';
+  import {Rate} from 'iview';
+  Vue.component('Rate', Rate);
   export default {
     name: 'reportList',
     props:['reportLoading','reportList','hasReport'],
@@ -50,6 +51,14 @@
 
     },
     methods:{
+      goToCheck(id){
+        this.$router.push({
+          name:'check',
+          query:{
+            id:id
+          }
+        })
+      },
       moment:moment,
       scrollToEnd(){
         this.$emit('searchReportList');

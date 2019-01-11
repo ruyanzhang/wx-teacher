@@ -8,28 +8,27 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/home/Home.vue'),
+      component: () => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/home',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/home/Home.vue'),
+      component: () => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/mistake',
       name: 'mistake',
-      component: () => import(/* webpackChunkName: "about" */ './views/mistake/Mistake.vue'),
+      component: () => import(/* webpackChunkName: "mistake" */ './views/mistake/Mistake.vue'),
       meta: { requiresAuth: true }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/check',
+      name: 'check',
+      component: () => import(/* webpackChunkName: "Check" */ './views/Check.vue'),
+      meta: { requiresAuth: true },
+      props:(route)=>({id:route.query.id})
     },
     {
       path: '/login',
@@ -38,12 +37,12 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
 
-      component: () => import('./views/Login.vue')
+      component: () => import(/* webpackChunkName: "login" */'./views/Login.vue')
     },
     {
       path: '*',
       name: 'error',
-      component: () => import('./views/Error.vue')
+      component: () => import(/* webpackChunkName: "error" */'./views/Error.vue')
     }
   ]
 });
