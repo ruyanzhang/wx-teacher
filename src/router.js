@@ -1,32 +1,57 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {getToken} from "./utils";
-
+import navBar from '@/components/nav-bar';
 Vue.use(Router);
 const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
-      meta: { requiresAuth: true }
+      name: 'index',
+      components: {
+        default:() => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
+        navBar:navBar
+      },
+      meta: { requiresAuth: true },
+      props:{
+        navBar:()=>({current:'home'})
+      }
     },
     {
       path: '/home',
       name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
-      meta: { requiresAuth: true }
+      components: {
+        default:() => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
+        navBar:navBar
+      },
+      meta: { requiresAuth: true },
+      props:{
+        navBar:()=>({current:'home'})
+      }
     },
     {
       path: '/mistake',
       name: 'mistake',
-      component: () => import(/* webpackChunkName: "mistake" */ './views/mistake/Mistake.vue'),
-      meta: { requiresAuth: true }
+      components:{
+        default:() => import(/* webpackChunkName: "home" */ './views/mistake/Mistake.vue'),
+        navBar:navBar
+      },
+      meta: { requiresAuth: true },
+      props:{
+        navBar:()=>({current:'mistake'})
+      }
     },
     {
       path: '/check',
       name: 'check',
       component: () => import(/* webpackChunkName: "Check" */ './views/Check.vue'),
+      meta: { requiresAuth: true },
+      props:(route)=>({id:route.query.id})
+    },
+    {
+      path: '/report',
+      name: 'report',
+      component: () => import(/* webpackChunkName: "Check" */ './views/Report.vue'),
       meta: { requiresAuth: true },
       props:(route)=>({id:route.query.id})
     },

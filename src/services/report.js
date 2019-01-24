@@ -1,22 +1,17 @@
 import {request,requestPost} from '../utils/request'
 import config from  '../utils/config'
-const {learningCase,checkReportUrl,notCheckReportUrl,sendReportUrl,saveReportUrl,updateReportUrl,mistakeCase} = config.api;
+const {learningCase,checkReportUrl,notCheckReportUrl,sendReportUrl,saveReportUrl} = config.api;
 
 export async function getLearningCase (data) {
   return requestPost(learningCase,{
-    method: 'get',
+    method: 'post',
     data,
   })
 }
-export async function getMistakeCase (data) {
-  return requestPost(mistakeCase,{
-    method: 'get',
-    data,
-  })
-}
+
 export async function getCheckReport (data) {
   return requestPost(checkReportUrl,{
-    method: 'get',
+    method: 'post',
     data,
   })
 }
@@ -24,16 +19,11 @@ export async function getCheckReport (data) {
 
 export async function getNotCheckReport (data) {
   return requestPost(notCheckReportUrl,{
-    method: 'get',
-    data,
-  })
-}
-export async function updateReport (data) {
-  return requestPost(updateReportUrl,{
     method: 'post',
     data,
   })
 }
+
 export async function sendReport (data) {
   return requestPost(sendReportUrl,{
     method:'post',

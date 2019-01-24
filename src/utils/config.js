@@ -15,7 +15,8 @@ export default {
     mistakeListUrl:`${APIV1}/teacher/mistake_list`,//错题集
     mistakeCourseUrl:`${APIV1}/student/gradecourse`, //获取错题集科目
     notCheckReportUrl:`${APIV1}/student/notCheckReport`, //未核录报告
-
+    saveReportUrl:`${APIV1}/student/save_report`, //保存报告
+    checkReportUrl:`${APIV1}/student/checkReport`, //已检测报告
 
     qiniuken:`${APIV1}/teacherplatform/api/qidicloud/courseware/get_qiniu_token`, //获取qiniu的token
     userGetOpenId:`${APIV1}/authorization/webPage/code`, //获取openId
@@ -27,21 +28,9 @@ export default {
     notCheckList:`${APIV1}/user/teacher/studyreport/undone`,
     checkList:`${APIV1}/user/teacher/studyreport/done`,
     learningCase:`${APIV1}/user/coursewareonline/get`,
-    checkReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/get_study_report`,
     coursewareId:`${APIV1}/user/coursewareonline/judge`,
     updateReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
     sendReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
-    saveReportUrl:`${APIV1}/api/e_lecture/one_to_one/teacher/save_study_report`,
 
-    sendParentYZMUrl:`${APIV1}/user/code`, //家长端验证码接口
-    isParentBindUrl:`${APIV1}/user/student/is_bind`, //判斷学生是否綁定
-    parentLoginUrl:`${APIV1}/user/student/bind`, //家长端绑定接口
-    parentLogoutUrl:`${APIV1}/user/student/unbind`,//家长端解绑接口
-
-    sendParentReportUrl:`${APIV1}/user/student/studyreport/comment`, //家长端发送学习报告
-    parentComment:`${APIV1}/api/e_lecture/one_to_one/studyreport/comment`, //获取家长评价
-    mistakeCase:`${APIV1}/user/student/studyreport/error_subject`, //家长端发送学习报
-    parentCheckReport:`${APIV1}/user/student/studyreport/done/get`, //家长端学习报告接口
-    studentListUrl:`${APIV1}/user/student/list`, //家长端绑定那些学生接口
   },
 };

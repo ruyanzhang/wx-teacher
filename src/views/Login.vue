@@ -1,21 +1,23 @@
 <template>
-  <Form ref="formInline" :model="formInline" :rules="ruleInline">
-    <FormItem prop="user">
-      <Input type="text" v-model="formInline.user" placeholder="用户名">
-        <Icon type="ios-person-outline" slot="prepend"></Icon>
-      </Input>
-    </FormItem>
-    <FormItem prop="password">
-      <Input type="password" v-model="formInline.password" placeholder="密码">
-        <Icon type="ios-lock-outline" slot="prepend"></Icon>
-      </Input>
-    </FormItem>
-    <FormItem>
-      <Button type="primary" @click="handleSubmit('formInline')">{{loading ? '登陆中...':'登录'}}</Button>
-    </FormItem>
-  </Form>
-</template>
+  <div class="login-warp">
+    <Form ref="formInline" :model="formInline" :rules="ruleInline">
+      <FormItem prop="user">
+        <Input type="text" v-model="formInline.user" placeholder="用户名" size="large">
+          <Icon type="ios-person-outline" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem prop="password">
+        <Input type="password" v-model="formInline.password" placeholder="密码" size="large">
+          <Icon type="ios-lock-outline" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem>
+        <Button type="primary" @click="handleSubmit('formInline')" size="large">{{loading ? '登陆中...':'登录'}}</Button>
+      </FormItem>
+    </Form>
+  </div>
 
+</template>
 <script>
     import Vue from 'vue';
     import {mapActions} from 'vuex';
@@ -70,7 +72,20 @@
       }
     }
 </script>
-
-<style scoped>
-
+<style scoped lang="less">
+  .login-warp{
+    padding: 0 20px;
+    height: 100vh;
+    background: url("../images/logo-bg.png") no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &>form{
+      width: 100%;
+    }
+    .ivu-btn{
+      width: 100%;
+    }
+  }
 </style>

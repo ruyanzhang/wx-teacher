@@ -5,28 +5,25 @@
         v-on:choseDay="clickDay"
         v-on:changeMonth="changeDate"></Calendar>
     </div>
-    <div style="padding: 0 10px;">
-      <Tabs :value="curTab" :animated="false" type="card">
+    <div style="padding: 0 16px;">
+      <Tabs v-model="curTab" :animated="false" type="card">
         <TabPane label="日课程" name="day">
           <Loading v-if="dayLoading"></Loading>
           <div v-else>
-            <div v-if="dayListData.length===0">
-              <img :src="require('@/images/no-timeable.png')"/>
-              <p>当前日期无排课</p>
-            </div>
+            <NoData v-if="dayListData.length===0" text="当前日期无排课"></NoData>
             <ul v-else>
-              <li v-for="(item,index) in dayListData" :key="index" style="border-bottom: 1px solid #dddddd;">
-                <div>
-                  <p>{{item.classCourseName}}</p>
+              <li v-for="(item,index) in dayListData" :key="index" class="course-item">
+                <div class="flex flex-ac flex-jsb">
+                  <p class="course-item-name">{{item.classCourseName}}</p>
                   <p>{{moment(item.timeFrom).format('HH:mm')}}~{{moment(item.timeTo).format('HH:mm')}}</p>
                 </div>
-                <div>
-                  <span v-if="item.classroomStatus===0">待备课</span>
-                  <span v-else-if="item.classroomStatus===1">已备课</span>
-                  <span v-else-if="item.classroomStatus===2">待反馈</span>
-                  <span v-else-if="item.classroomStatus===3">已反馈</span>
+                <div class="flex flex-ac flex-jsb">
+                  <span v-if="item.classroomStatus===0" class="course-item-label">待备课</span>
+                  <span v-else-if="item.classroomStatus===1"  class="course-item-label course-item-blueLabel">已备课</span>
+                  <span v-else-if="item.classroomStatus===2" class="course-item-label">待反馈</span>
+                  <span v-else-if="item.classroomStatus===3" class="course-item-label course-item-greenLabel">已反馈</span>
                   <span v-else></span>
-                  <p>{{item.subschoolName + item.classroomName}}</p>
+                  <p class="course-item-position">{{item.subschoolName + item.classroomName}}</p>
                 </div>
               </li>
             </ul>
@@ -37,18 +34,18 @@
           <div v-else>
             <NoData v-if="monthListData.length===0" text="当前月无排课"></NoData>
             <ul v-else>
-              <li v-for="(item,index) in monthListData" :key="index" style="border-bottom: 1px solid #dddddd;">
-                <div>
-                  <p>{{item.classCourseName}}</p>
+              <li v-for="(item,index) in monthListData" :key="index" class="course-item">
+                <div class="flex flex-ac flex-jsb">
+                  <p class="course-item-name">{{item.classCourseName}}</p>
                   <p>{{moment(item.timeFrom).format('HH:mm')}}~{{moment(item.timeTo).format('HH:mm')}}</p>
                 </div>
-                <div>
-                  <span v-if="item.classroomStatus===0">待备课</span>
-                  <span v-else-if="item.classroomStatus===1">已备课</span>
-                  <span v-else-if="item.classroomStatus===2">待反馈</span>
-                  <span v-else-if="item.classroomStatus===3">已反馈</span>
+                <div class="flex flex-ac flex-jsb">
+                  <span v-if="item.classroomStatus===0" class="course-item-label">待备课</span>
+                  <span v-else-if="item.classroomStatus===1" class="course-item-label course-item-blueLabel">已备课</span>
+                  <span v-else-if="item.classroomStatus===2" class="course-item-label">待反馈</span>
+                  <span v-else-if="item.classroomStatus===3" class="course-item-label course-item-greenLabel">已反馈</span>
                   <span v-else></span>
-                  <p>{{item.subschoolName + item.classroomName}}</p>
+                  <p class="course-item-position">{{item.subschoolName + item.classroomName}}</p>
                 </div>
               </li>
             </ul>
@@ -122,3 +119,36 @@
     }
   }
 </script>
+<style scoped lang='less'>
+  .course-item{
+    padding: 14px 0;
+    border-bottom: 1px solid #dddddd;
+    background-color: #fff;
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+  .course-item-name{
+    font-size: 16px;
+    color: #222;
+  }
+  .course-item-label{
+    color: #ff6e0e;
+    font-size: 12px;
+    border: 1px solid #ff6e0e;
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+  .course-item-blueLabel{
+    color: #1e98e2;
+    border-color: #1e98e2;
+  }
+
+  .course-item-greenLabel{
+    color:#22ac38;
+    border-color:#22ac38;
+  }
+  .course-item-position{
+    color: #999;
+  }
+</style>
