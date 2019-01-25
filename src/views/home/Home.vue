@@ -57,7 +57,7 @@
 </template>
 <script>
   import Vue from 'vue';
-  import {mapActions,mapState,mapGetters} from 'vuex';
+  import {mapActions,mapGetters} from 'vuex';
   import Calendar from 'vue-calendar-component';
   import Loading from '@/components/loading';
   import NoData  from '@/components/no-data';

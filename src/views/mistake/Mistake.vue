@@ -120,3 +120,16 @@
     }
   }
 </script>
+<style lang="less">
+  .mistake{
+    .ivu-tabs-nav{
+      width: 100%;
+    }
+    .ivu-tabs-tab{
+      width: 50%;
+      margin-right: 0;
+      text-align: center;
+    }
+  }
+
+</style>

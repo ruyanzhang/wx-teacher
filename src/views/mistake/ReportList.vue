@@ -7,7 +7,7 @@
               @scrollToEnd="scrollToEnd">
         <div class="scroll-wrapper-content">
           <ul>
-            <li v-for="(item,index) in reportList" :key="index" @click="()=>goToCheck(item.id)">
+            <li v-for="(item,index) in reportList" :key="index" @click="()=>goToCheck(item.id)" class="list-box">
               <div>
                 <p>{{item.classCourseName}}</p>
                 <p>{{item.studentName}}</p>
@@ -69,6 +69,7 @@
     }
   }
 </script>
+
 <style scoped>
   .report-content{
     height: 100%;
