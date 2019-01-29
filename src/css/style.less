@@ -16,6 +16,9 @@ img{
 .ovh{
   overflow: hidden;
 }
+.fl{
+  float: left;
+}
 .flex{
   display: flex;
 }
@@ -25,8 +28,15 @@ img{
 .flex-jsb{
   justify-content: space-between;
 }
+.flex-ver{
+  flex-direction: column;
+}
 .flex1{
   flex: 1;
+}
+.plr10{
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .ptb10{
   padding-top: 10px;
@@ -35,8 +45,13 @@ img{
 .pb10{
   padding-bottom: 10px;
 }
+.mt4{margin-top: 4px;}
 .mt10{
   margin-top: 10px;
+}
+.ml5{margin-left: 5px;}
+.bg1{
+  background-color: #f5f5f5;
 }
 //tab样式
 .tab-wrapper {
@@ -57,9 +72,10 @@ img{
   .ivu-tabs-tabpane{
     height: 100%;
   }
+  .ivu-tabs-nav{
+    background-color: #ffffff;
+  }
 }
-
-
 // 滚动条样式
 .scroll-wrapper{
   position: relative;
@@ -70,4 +86,105 @@ img{
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+//list 样式
+.list-wrap{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding:0 10px;
+}
+.list-item{
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 12px 8px;
+  margin-top: 10px;
+  &:hover{
+    background-color: #e0f1fb;
+  }
+}
+.list-name{
+  font-size: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.list-time{
+  color: #909090;
+  font-size: 12px;
+}
+.list-date{
+  font-size: 12px;
+  padding-left: 4px;
+  text-align: right;
+  border-left: 1px solid #bbb;
+  line-height: 1.2;
+  color: #909090;
+}
+.list-comment{
+  border-top: 1PX solid #eef1f2;
+  padding-top: 12px;
+  padding-left:4px;
+  padding-bottom:4px;
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+}
+.list-comment-head{
+  width: 14px;
+  height: 16px;
+  background: url(../../images/comment-user-icon.png) no-repeat center;
+  background-size: 100%;
+  margin-right: 7px;
+}
+.list-comment-head-con{
+  overflow: hidden;
+}
+.task{
+  border-left: 2px solid transparent;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  &:last-child{
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  &.wrong{
+    background-color: #fff2f2;
+    border-left: 2px solid #ff5353;
+  }
+}
+.task-name{
+  display: inline-block;
+  font-size: 12px;
+  color: #1e98e2;
+  margin-bottom: 5px;
+}
+.answer,.analysis{
+  background-color: #eaf7ff;
+}
+.answer{
+  padding: 5px 5px 0 5px;
+  position: relative;
+  margin-top: 10px;
+  &:before{
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-color: transparent transparent #eaf7ff transparent;
+    border-style: solid;
+    border-width: 9px;
+    top: -17px;
+    left: 50%;
+    margin-left: -4px;
+  }
+}
+.analysis{
+  padding: 0 5px 5px 5px;
 }

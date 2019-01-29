@@ -1,5 +1,5 @@
 <template>
-  <div class="mistake-content">
+  <div class="list-wrap">
     <p style="display: none;">{{curTab}}</p>
     <div style="padding: 0 10px;">
       <Row :gutter="8">
@@ -35,16 +35,16 @@
               @scrollToEnd="scrollToEnd">
         <div class="scroll-wrapper-content">
           <ul>
-            <li v-for="(item,index) in mistakeList" :key="index" style="border-bottom: 1px solid #dddddd;">
-              <span>{{index+1}}. </span>
-              <div>
-                <div v-html="item.content"></div>
-                <div>
-                  <p>【参考答案】:</p>
+            <li v-for="(item,index) in mistakeList" :key="index" class="task">
+              <div>{{index+1}}.</div>
+              <div class="ovh ml5">
+                <div v-html="item.content" class="task-name"></div>
+                <div class="answer">
+                  <p class="fl">【参考答案】:</p>
                   <div v-html="item.answer"></div>
                 </div>
-                <div>
-                  <p>【题目解析】:</p>
+                <div class="analysis">
+                  <p class="fl">【题目解析】:</p>
                   <div v-html="item.analysis"></div>
                 </div>
               </div>
@@ -94,10 +94,6 @@
     }
   }
 </script>
-<style scoped>
-  .mistake-content{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+<style scoped lang="less">
+
 </style>

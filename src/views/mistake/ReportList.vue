@@ -1,5 +1,5 @@
 <template>
-  <div class="report-content">
+  <div class="list-wrap">
     <div class="flex1 ovh pb10">
       <scroll class="scroll-wrapper"
               :data="reportList"
@@ -7,19 +7,23 @@
               @scrollToEnd="scrollToEnd">
         <div class="scroll-wrapper-content">
           <ul>
-            <li v-for="(item,index) in reportList" :key="index" @click="()=>goToCheck(item.id)" class="list-box">
-              <div>
-                <p>{{item.classCourseName}}</p>
-                <p>{{item.studentName}}</p>
-                <p>{{item.lessonTime}}</p>
-              </div>
-              <div>
-                <p>{{item.submitDate}} 提交</p>
-              </div>
-              <div>
+            <li v-for="(item,index) in reportList" :key="index" @click="()=>goTo(item.id,item.hasCheck)" class="list-item">
+              <p class="list-name">{{item.classCourseName}}</p>
+              <div class="flex flex-ac flex-jsb">
                 <div>
-                  <p><Rate disabled :value="item.score" /></p>
-                  <p>{{item.evaluation}}</p>
+                  <p>{{item.studentName}}</p>
+                  <p class="list-time">{{item.lessonTime}}</p>
+                </div>
+                <div class="list-date">
+                  <p>{{item.submitDate.substring(0,10)}}</p>
+                  <p>{{item.submitDate.substring(11)}} 提交</p>
+                </div>
+              </div>
+              <div class="list-comment" v-if="item.hasCheck">
+                <div class="list-comment-head"></div>
+                <div class="flex1">
+                  <div style="margin-top: -8px;"><Rate disabled :value="item.score" /></div>
+                  <p>老师评价：{{item.evaluation}}</p>
                 </div>
               </div>
             </li>
@@ -51,9 +55,10 @@
 
     },
     methods:{
-      goToCheck(id){
+      goTo(id,checked){
+        console.log(checked)
         this.$router.push({
-          name:'check',
+          name:checked ? 'report':'check',
           query:{
             id:id
           }
@@ -69,11 +74,6 @@
     }
   }
 </script>
-
 <style scoped>
-  .report-content{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+
 </style>

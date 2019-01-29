@@ -53,7 +53,7 @@
                 name:'login'
               })
             }
-
+            this.isShow = !this.isShow;
           }
         }
     }

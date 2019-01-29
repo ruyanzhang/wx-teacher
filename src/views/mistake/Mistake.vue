@@ -1,6 +1,6 @@
 <template>
   <div class="mistake">
-    <div class="tab-wrapper">
+    <div class="tab-wrapper bg1">
       <Tabs :animated="false" value="report" @on-click="changeTab">
         <TabPane label="学习报告" name="report">
           <NoData v-if="reportList===null" text="当前没有学习报告"></NoData>
