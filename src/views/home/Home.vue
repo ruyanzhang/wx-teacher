@@ -106,7 +106,7 @@
         const token = getToken();
         const month = moment(new Date(date)).format('YYYY-MM') || moment().format('YYYY-MM');
         vm.monthLoading = true;
-        this.getMonthList({token,month}).then(function (data) {},function (data) {
+        this.getMonthList({token,month}).then(function () {},function (data) {
           vm.$Message.error(data);
         }).finally(function () {
           vm.monthLoading = false;

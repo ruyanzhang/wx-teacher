@@ -1,6 +1,7 @@
 import Mock from 'mockjs';
 import config from '../utils/config';
-const {userLogin,getDayUrl,getMonthUrl,reportListUrl,mistakeListUrl,mistakeCourseUrl,notCheckReportUrl,saveReportUrl,checkReportUrl} = config.api;
+const {userLogin,getDayUrl,getMonthUrl,reportListUrl,mistakeListUrl,mistakeCourseUrl,notCheckReportUrl,saveReportUrl,
+  checkReportUrl,sendReportUrl} = config.api;
 const Random = Mock.Random;
 Mock.mock(userLogin,{
   "user":/[a-z]{6,20}/,
@@ -183,4 +184,8 @@ Mock.mock(checkReportUrl,{
 Mock.mock(saveReportUrl,{
   "success":true
 });
+Mock.mock(sendReportUrl,{
+  "msg":"成功发送"
+});
+
 

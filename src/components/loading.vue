@@ -1,8 +1,10 @@
 <template>
-  <Spin>
-    <Icon type="ios-loading" size=24 class="demo-spin-icon-load"></Icon>
-    <div style="margin-top: 4px;">加载中...</div>
-  </Spin>
+  <div style="padding: 20px;">
+    <Spin>
+      <Icon type="ios-loading" size=24 class="demo-spin-icon-load"></Icon>
+      <div style="margin-top: 4px;">加载中...</div>
+    </Spin>
+  </div>
 </template>
 
 <script>

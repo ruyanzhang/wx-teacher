@@ -1,17 +1,17 @@
 <template>
   <div class="icon-wrap">
     <div class="icon home" :class="{'home-show':isShow}" @click="()=>goTo('home')">
-      <Icon type="ios-timer" size="36" color="#2d8cf0"/>
+      <Icon type="ios-timer" size="36" color="#57a3f3"/>
     </div>
     <div class="icon report" :class="{'report-show':isShow}" @click="()=>goTo('mistake')">
-      <Icon type="md-list-box" size="34" color="#2d8cf0"/>
+      <Icon type="md-list-box" size="34" color="#57a3f3"/>
     </div>
     <div class="icon login-out" :class="{'login-out-show':isShow}" @click="()=>goTo('login')">
-      <Icon type="md-log-out" size="36" color="#2d8cf0"/>
+      <Icon type="md-log-out" size="36" color="#57a3f3"/>
     </div>
     <div class="icon icon-menu" @click="iconChange">
-      <Icon type="md-remove-circle" size="36" color="#2d8cf0" v-if="isShow"/>
-      <Icon type="md-add-circle" size="36" color="#2d8cf0" v-else/>
+      <Icon type="md-remove-circle" size="36" color="#57a3f3" v-if="isShow"/>
+      <Icon type="md-add-circle" size="36" color="#57a3f3" v-else/>
     </div>
   </div>
 </template>

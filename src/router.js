@@ -7,15 +7,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
-      components: {
-        default:() => import(/* webpackChunkName: "home" */ './views/home/Home.vue'),
-        navBar:navBar
-      },
-      meta: { requiresAuth: true },
-      props:{
-        navBar:()=>({current:'home'})
-      }
+      redirect: '/home'
     },
     {
       path: '/home',
@@ -33,7 +25,7 @@ const router = new Router({
       path: '/mistake',
       name: 'mistake',
       components:{
-        default:() => import(/* webpackChunkName: "home" */ './views/mistake/Mistake.vue'),
+        default:() => import(/* webpackChunkName: "Mistake" */ './views/mistake/Mistake.vue'),
         navBar:navBar
       },
       meta: { requiresAuth: true },
@@ -44,14 +36,14 @@ const router = new Router({
     {
       path: '/check',
       name: 'check',
-      component: () => import(/* webpackChunkName: "Check" */ './views/Check.vue'),
+      component:() => import(/* webpackChunkName: "Check" */ './views/Check.vue'),
       meta: { requiresAuth: true },
       props:(route)=>({id:route.query.id})
     },
     {
       path: '/report',
       name: 'report',
-      component: () => import(/* webpackChunkName: "Check" */ './views/Report.vue'),
+      component:() => import(/* webpackChunkName: "Report" */ './views/Report.vue'),
       meta: { requiresAuth: true },
       props:(route)=>({id:route.query.id})
     },

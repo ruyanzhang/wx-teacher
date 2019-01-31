@@ -56,7 +56,6 @@
     },
     methods:{
       goTo(id,checked){
-        console.log(checked)
         this.$router.push({
           name:checked ? 'report':'check',
           query:{

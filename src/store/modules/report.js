@@ -1,9 +1,7 @@
-import {getNotCheckReport,saveReport,getCheckReport} from '../../services/report';
+import {getNotCheckReport,saveReport,getCheckReport,sendReport} from '../../services/report';
 const state = {
-  checkReportLoading:false,
   notCheckReportData: {},
-  checkReportLoading2:false,
-  checkReportData:{}
+  checkReportData:{},
 };
 
 const getters = {
@@ -17,18 +15,6 @@ const mutations = {
     }else if(payload.type==='checkReport'){
       state.checkReportData = payload.checkReportData
     }
-  },
-  showNotCheckLoading(state){
-    state.checkReportLoading=true;
-  },
-  hideNotCheckLoading(state){
-    state.checkReportLoading=false;
-  },
-  showCheckLoading(state){
-    state.checkReportLoading2=true;
-  },
-  hideCheckLoading(state){
-    state.checkReportLoading2=false;
   }
 };
 
@@ -57,8 +43,16 @@ const actions = {
       return Promise.resolve(data.msg);
     }
   },
-  async saveReport ({ commit }, payload) {
+  async saveReport (store, payload) {
     const data = await saveReport(payload);
+    if(data.status===200 && data.statusText==='OK'){
+      return Promise.resolve(data.data);
+    }else{
+      return Promise.resolve(data.msg);
+    }
+  },
+  async sendReport (store, payload) {
+    const data = await sendReport(payload);
     if(data.status===200 && data.statusText==='OK'){
       return Promise.resolve(data.data);
     }else{

@@ -1,79 +1,89 @@
 <template>
-  <div>
+  <div class="check">
     <div class="check-head">
-      <div class="check-headCon">
-        <p><span class="name-title">学生姓名：</span>{{notCheckReportData.studentName}}</p>
-        <div><span class="name-title">辅导内容：</span><div>{{notCheckReportData.topicDocName}}</div></div>
-        <p><span class="name-title">学科学段：</span>{{notCheckReportData.topCourseName}}·{{notCheckReportData.gradeName}}</p>
-        <p><span class="name-title">上课时间：</span>{{notCheckReportData.lessonStartDate}}~{{notCheckReportData.lessonEndDate}}</p>
-      </div>
+      <p><span class="check-head-title">学生姓名：</span>{{notCheckReportData.studentName}}</p>
+      <div><span class="check-head-title">辅导内容：</span>{{notCheckReportData.topicDocName}}</div>
+      <p><span class="check-head-title">学科学段：</span>{{notCheckReportData.topCourseName}}·{{notCheckReportData.gradeName}}</p>
+      <p><span class="check-head-title">上课时间：</span>{{notCheckReportData.lessonStartDate}}~{{notCheckReportData.lessonEndDate}}</p>
     </div>
-    <div >
-      <p>本课轨迹记录</p>
+    <div class="check-block">
+      <p class="check-block-title">本课轨迹记录</p>
       <Subjects :subjects="notCheckReportData.lastHomeworkSubjectLogDTOs"></Subjects>
-      <p>知识点掌握情况</p>
+    </div>
+    <div class="check-block">
+      <p class="check-block-title">知识点掌握情况</p>
       <ul>
-        <li v-for="(item,index) in notCheckReportData.knowledgeDTOs" :key="index">
+        <li v-for="(item,index) in notCheckReportData.knowledgeDTOs" :key="index" class="mt10">
           <p>{{item.knowledgeName}}：</p>
           <div>
             <Slider v-model="notCheckReportData.knowledgeDTOs[index].subjectRightNum" :min="0" :max="100"></Slider>
           </div>
-          <p>
+          <div class="slider-text flex flex-jsb">
             <span>差</span>
             <span>中</span>
             <span>优</span>
-          </p>
+          </div>
         </li>
       </ul>
-      <p>课堂表现</p>
-      <div>
+    </div>
+    <div class="check-block">
+      <p class="check-block-title">课堂表现</p>
+      <div class="mt10">
         <span>主动专注：</span>
         <Rate v-model="notCheckReportData.activeFocus"/>
       </div>
-      <div>
+      <div  class="mt10">
         <span>勤思善问：</span>
         <Rate v-model="notCheckReportData.thinkAsk"/>
       </div>
-      <div>
+      <div  class="mt10">
         <span>习惯优良：</span>
         <Rate v-model="notCheckReportData.goodHabits"/>
       </div>
-      <div>
-        <p>老师的话</p>
-        <Input type="textarea" placeholder="请向家长反馈学生的课堂表现，针对学生可提升的地方提出解决方案，并告知家长配合的方向" v-model="notCheckReportData.teacherComment"/>
-        <p>请至少输入10个字</p>
-      </div>
-      <div>
-        <span @click="goToReport">预览</span>
-      </div>
     </div>
+    <div class="check-block">
+      <p class="check-block-title">老师的话</p>
+      <Input type="textarea" class="w-100 mt10"  :rows="4" placeholder="请向家长反馈学生的课堂表现，针对学生可提升的地方提出解决方案，并告知家长配合的方向" v-model="notCheckReportData.teacherComment"/>
+      <p class="tr">请至少输入10个字</p>
+    </div>
+    <div class="send-button" @click="goToReport">预览</div>
   </div>
 </template>
 
 <script>
   import Vue from 'vue';
   import {mapActions,mapState,mapMutations} from 'vuex';
-  import {Slider} from 'iview';
-  import {Rate} from 'iview';
+  import {Slider,Rate,Input} from 'iview';
+  Vue.component('Input', Input);
   Vue.component('Slider', Slider);
   Vue.component('Rate', Rate);
   Vue.component('Subjects', {
     props:['subjects'],
     methods:{
-      changeType(item,type){
+      changeType(item,index,type){
         item.type=type;
+        if(type===1){
+          this.$refs['error'+index][0].classList.add('active');
+          this.$refs['unUse'+index][0].classList.remove('active');
+        }else{
+          this.$refs['unUse'+index][0].classList.add('active');
+          this.$refs['error'+index][0].classList.remove('active');
+        }
       }
     },
     template: `<ul>
-      <li v-for="(item,index) in subjects" :key="index">
-					<p>{{item.moduleName}}</p>
-					<div v-html="item.content"></div>
-          <div><p>【参考答案】:</p><div v-html="item.answer"></div></div>
-          <div><p>【题目解析】:</p><div v-html="item.analysis"></div></div>
-					<div>
-						<span @click="()=>changeType(item,1)">错题</span>
-						<span @click="()=>changeType(item,0)">未用</span>
-					</div>
+      <li v-for="(item,index) in subjects" :key="index" class="task border-bottom">
+
+					<div>{{index+1}}.</div>
+					  <div class="ml5">
+              <div v-html="item.content"></div>
+              <div><p class="fl blue">【参考答案】:</p><div v-html="item.answer"></div></div>
+              <div><p class="fl blue">【题目解析】:</p><div v-html="item.analysis"></div></div>
+              <div class="mt10 tr">
+                <span @click="()=>changeType(item,index,1)" class="task-button" :ref="'error'+index">错题</span>
+                <span @click="()=>changeType(item,index,0)" class="task-button" :ref="'unUse'+index">未用</span>
+              </div>
+            </div>
       </li>
     </ul>`
   });
@@ -90,11 +100,11 @@
         ...mapMutations(['showNotCheckLoading','hideNotCheckLoading']),
         getNotCheckReportData(data){
           const vm = this;
-          vm.showNotCheckLoading();
-          this.getNotCheckReport(data).then(function () {},function (data) {
+          vm.$wait.start('getNotCheckReportData');
+          this.getNotCheckReport(data).then(()=>{},(data) => {
             vm.$Message.error(data);
-          }).finally(function () {
-            vm.hideNotCheckLoading();
+          }).finally(() => {
+            vm.$wait.end('getNotCheckReportData');
           });
         },
         goToReport(){
@@ -119,5 +129,6 @@
 </script>
 
 <style scoped>
+
 
 </style>

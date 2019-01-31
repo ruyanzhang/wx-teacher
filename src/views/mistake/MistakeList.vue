@@ -1,7 +1,7 @@
 <template>
   <div class="list-wrap">
     <p style="display: none;">{{curTab}}</p>
-    <div style="padding: 0 10px;">
+    <div>
       <Row :gutter="8">
         <Col span="8">
           <Select :value="mistakeGradeCourseId" @on-change="(value)=>changeSearch('mistakeGradeCourseId',value)">
@@ -35,17 +35,19 @@
               @scrollToEnd="scrollToEnd">
         <div class="scroll-wrapper-content">
           <ul>
-            <li v-for="(item,index) in mistakeList" :key="index" class="task">
-              <div>{{index+1}}.</div>
-              <div class="ovh ml5">
-                <div v-html="item.content" class="task-name"></div>
-                <div class="answer">
-                  <p class="fl">【参考答案】:</p>
-                  <div v-html="item.answer"></div>
-                </div>
-                <div class="analysis">
-                  <p class="fl">【题目解析】:</p>
-                  <div v-html="item.analysis"></div>
+            <li v-for="(item,index) in mistakeList" :key="index" class="task-wrap">
+              <div class="task">
+                <div>{{index+1}}.</div>
+                <div class="ml5">
+                  <div v-html="item.content"></div>
+                  <div class="mt4">
+                    <p class="fl blue">【参考答案】:</p>
+                    <div v-html="item.answer"></div>
+                  </div>
+                  <div>
+                    <p class="fl blue">【题目解析】:</p>
+                    <div v-html="item.analysis"></div>
+                  </div>
                 </div>
               </div>
             </li>
