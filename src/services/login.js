@@ -1,4 +1,4 @@
-import {request,requestPost} from '../utils/request'
+import {requestPost} from '../utils/request'
 import config from  '../utils/config'
 const { userLogin,userLogout} = config.api;
 

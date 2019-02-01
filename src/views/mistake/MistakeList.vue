@@ -3,29 +3,29 @@
     <p style="display: none;">{{curTab}}</p>
     <div>
       <Row :gutter="8">
-        <Col span="8">
-          <Select :value="mistakeGradeCourseId" @on-change="(value)=>changeSearch('mistakeGradeCourseId',value)">
+        <iv-col span="8">
+          <iv-select :value="mistakeGradeCourseId" @on-change="(value)=>changeSearch('mistakeGradeCourseId',value)">
             <Option v-for="(item,index) in mistakeGradeCourse"
                     :value="item.gradeCourseId"
                     :key="index">{{item.gradeCourseName}}</Option>
-          </Select>
-        </Col>
-        <Col span="8">
-          <Select :value="mistakeStatus" @on-change="(value)=>changeSearch('mistakeStatus',value)">
+          </iv-select>
+        </iv-col>
+        <iv-col span="8">
+          <iv-select :value="mistakeStatus" @on-change="(value)=>changeSearch('mistakeStatus',value)">
             <Option value="0">未攻克</Option>
             <Option value="1">已攻克</Option>
             <Option value="2">全部</Option>
-          </Select>
-        </Col>
-        <Col span="8">
-          <Select :value="mistakeTimeType" @on-change="(value)=>changeSearch('mistakeTimeType',value)">
+          </iv-select>
+        </iv-col>
+        <iv-col span="8">
+          <iv-select :value="mistakeTimeType" @on-change="(value)=>changeSearch('mistakeTimeType',value)">
             <Option value="0">一周</Option>
             <Option value="1">一个月</Option>
             <Option value="2">三个月</Option>
             <Option value="3">半年</Option>
             <Option value="4">一年</Option>
-          </Select>
-        </Col>
+          </iv-select>
+        </iv-col>
       </Row>
     </div>
     <div class="flex1 ovh ptb10">
@@ -66,9 +66,9 @@
   import Loading from '@/components/loading';
   import moment from 'moment';
   import {Select,Row,Col,Option} from 'iview';
-  Vue.component('Select', Select);
+  Vue.component('ivSelect', Select);
   Vue.component('Row', Row);
-  Vue.component('Col', Col);
+  Vue.component('ivCol', Col);
   Vue.component('Option', Option);
   export default {
     name: 'mistakeList',

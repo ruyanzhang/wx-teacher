@@ -1,4 +1,4 @@
-import {request,requestPost} from '../utils/request'
+import {requestPost} from '../utils/request'
 import config from  '../utils/config'
 const {reportListUrl,mistakeListUrl,mistakeCourseUrl} = config.api;
 

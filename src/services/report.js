@@ -1,4 +1,4 @@
-import {request,requestPost} from '../utils/request'
+import {requestPost} from '../utils/request'
 import config from  '../utils/config'
 const {learningCase,checkReportUrl,notCheckReportUrl,sendReportUrl,saveReportUrl} = config.api;
 
