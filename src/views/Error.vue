@@ -1,3 +1,3 @@
 <template>
-  <h1>not find</h1>
+  <h1 class="tc">not find</h1>
 </template>
