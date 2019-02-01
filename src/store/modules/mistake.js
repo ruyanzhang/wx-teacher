@@ -43,20 +43,6 @@ const mutations = {
       state.hasReport = payload.hasReport;
     }
 
-  },
-  showLoading(state,payload){
-    if(payload.type==='mistake'){
-      state.mistakeLoading=true;
-    }else if(payload.type==='report'){
-      state.reportLoading=true;
-    }
-  },
-  hideLoading(state,payload){
-    if(payload.type==='mistake'){
-      state.mistakeLoading=false;
-    }else if(payload.type==='report'){
-      state.reportLoading=false;
-    }
   }
 };
 

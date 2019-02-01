@@ -7,7 +7,7 @@
           <ReportList
             v-else
             :hasReport="hasReport"
-            :reportLoading="reportLoading"
+            :reportLoading="$wait.waiting('searchReportList')"
             :reportList="reportList"
             @searchReportList="searchReportList">
           </ReportList>
@@ -18,7 +18,7 @@
             v-else
             :curTab="curTab"
             :hasMistake="hasMistake"
-            :mistakeLoading="mistakeLoading"
+            :mistakeLoading="$wait.waiting('searchMistakeList')"
             :mistakeGradeCourseId="mistakeGradeCourseId"
             :mistakeStatus="mistakeStatus"
             :mistakeTimeType="mistakeTimeType"
@@ -33,7 +33,7 @@
 </template>
 <script>
   import Vue from 'vue';
-  import {mapActions,mapState,mapMutations} from 'vuex';
+  import {mapActions,mapState} from 'vuex';
   import MistakeList from './MistakeList';
   import ReportList from './ReportList';
   import NoData from '@/components/no-data';
@@ -67,7 +67,6 @@
     },
     methods:{
       ...mapActions(['getReportList','getMistakeList','getMistakeCourse']),
-      ...mapMutations(['showLoading','hideLoading']),
       moment:moment,
       reportLoadData(data={}){
         const vm = this;
@@ -81,28 +80,28 @@
       },
       searchReportList(data={}){
         const vm = this;
-        if(vm.reportLoading){return false;}
-        vm.showLoading({type:'report'});
+        if(vm.$wait.waiting('searchReportList')){return false;}
+        vm.$wait.start("searchReportList");
         this.getReportList({
           ...data,
           reportPage:data.reportPage ? data.reportPage : vm.reportPage+1
-        }).then(function () {},function (data) {
+        }).then(()=>{},(data)=>{
           vm.$Message.error(data);
-        }).finally(function () {
-          vm.hideLoading({type:'report'});
+        }).finally(()=>{
+          vm.$wait.end("searchReportList");
         });
       },
       searchMistakeList(data={}){
         const vm = this;
-        if(vm.mistakeLoading){return false;}
-        vm.showLoading({type:'mistake'});
+        if(vm.$wait.waiting("searchMistakeList")){return false;}
+        vm.$wait.start("searchMistakeList");
         this.getMistakeList({
           ...data,
           mistakePage:data.mistakePage ? data.mistakePage : vm.mistakePage+1
-        }).then(function () {},function (data) {
+        }).then(()=>{},(data)=>{
           vm.$Message.error(data);
-        }).finally(function () {
-          vm.hideLoading({type:'mistake'});
+        }).finally(()=>{
+          vm.$wait.end("searchMistakeList");
         });
       },
       changeSearch(type,value){

@@ -1,58 +1,63 @@
 <template>
   <div class="check">
-    <div class="check-head">
-      <p><span class="check-head-title">学生姓名：</span>{{notCheckReportData.studentName}}</p>
-      <div><span class="check-head-title">辅导内容：</span>{{notCheckReportData.topicDocName}}</div>
-      <p><span class="check-head-title">学科学段：</span>{{notCheckReportData.topCourseName}}·{{notCheckReportData.gradeName}}</p>
-      <p><span class="check-head-title">上课时间：</span>{{notCheckReportData.lessonStartDate}}~{{notCheckReportData.lessonEndDate}}</p>
-    </div>
-    <div class="check-block">
-      <p class="check-block-title">本课轨迹记录</p>
-      <Subjects :subjects="notCheckReportData.lastHomeworkSubjectLogDTOs"></Subjects>
-    </div>
-    <div class="check-block">
-      <p class="check-block-title">知识点掌握情况</p>
-      <ul>
-        <li v-for="(item,index) in notCheckReportData.knowledgeDTOs" :key="index" class="mt10">
-          <p>{{item.knowledgeName}}：</p>
-          <div>
-            <Slider v-model="notCheckReportData.knowledgeDTOs[index].subjectRightNum" :min="0" :max="100"></Slider>
-          </div>
-          <div class="slider-text flex flex-jsb">
-            <span>差</span>
-            <span>中</span>
-            <span>优</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="check-block">
-      <p class="check-block-title">课堂表现</p>
-      <div class="mt10">
-        <span>主动专注：</span>
-        <Rate v-model="notCheckReportData.activeFocus"/>
+    <Loading v-if="$wait.waiting('getNotCheckReportData')"></Loading>
+    <div v-else>
+      <div class="check-head">
+        <p><span class="check-head-title">学生姓名：</span>{{notCheckReportData.studentName}}</p>
+        <div><span class="check-head-title">辅导内容：</span>{{notCheckReportData.topicDocName}}</div>
+        <p><span class="check-head-title">学科学段：</span>{{notCheckReportData.topCourseName}}·{{notCheckReportData.gradeName}}</p>
+        <p><span class="check-head-title">上课时间：</span>{{notCheckReportData.lessonStartDate}}~{{notCheckReportData.lessonEndDate}}</p>
       </div>
-      <div  class="mt10">
-        <span>勤思善问：</span>
-        <Rate v-model="notCheckReportData.thinkAsk"/>
+      <div class="check-block">
+        <p class="check-block-title">本课轨迹记录</p>
+        <Subjects :subjects="notCheckReportData.lastHomeworkSubjectLogDTOs"></Subjects>
       </div>
-      <div  class="mt10">
-        <span>习惯优良：</span>
-        <Rate v-model="notCheckReportData.goodHabits"/>
+      <div class="check-block">
+        <p class="check-block-title">知识点掌握情况</p>
+        <ul>
+          <li v-for="(item,index) in notCheckReportData.knowledgeDTOs" :key="index" class="mt10">
+            <p>{{item.knowledgeName}}：</p>
+            <div>
+              <Slider v-model="notCheckReportData.knowledgeDTOs[index].subjectRightNum" :min="0" :max="100"></Slider>
+            </div>
+            <div class="slider-text flex flex-jsb">
+              <span>差</span>
+              <span>中</span>
+              <span>优</span>
+            </div>
+          </li>
+        </ul>
       </div>
+      <div class="check-block">
+        <p class="check-block-title">课堂表现</p>
+        <div class="mt10">
+          <span>主动专注：</span>
+          <Rate v-model="notCheckReportData.activeFocus"/>
+        </div>
+        <div  class="mt10">
+          <span>勤思善问：</span>
+          <Rate v-model="notCheckReportData.thinkAsk"/>
+        </div>
+        <div  class="mt10">
+          <span>习惯优良：</span>
+          <Rate v-model="notCheckReportData.goodHabits"/>
+        </div>
+      </div>
+      <div class="check-block">
+        <p class="check-block-title">老师的话</p>
+        <Input type="textarea" class="w-100 mt10"  :rows="4" placeholder="请向家长反馈学生的课堂表现，针对学生可提升的地方提出解决方案，并告知家长配合的方向"
+               v-model="notCheckReportData.teacherComment"/>
+        <p class="tr">请至少输入10个字</p>
+      </div>
+      <div class="send-button" @click="goToReport">预览</div>
     </div>
-    <div class="check-block">
-      <p class="check-block-title">老师的话</p>
-      <Input type="textarea" class="w-100 mt10"  :rows="4" placeholder="请向家长反馈学生的课堂表现，针对学生可提升的地方提出解决方案，并告知家长配合的方向" v-model="notCheckReportData.teacherComment"/>
-      <p class="tr">请至少输入10个字</p>
-    </div>
-    <div class="send-button" @click="goToReport">预览</div>
   </div>
 </template>
 
 <script>
   import Vue from 'vue';
-  import {mapActions,mapState,mapMutations} from 'vuex';
+  import {mapActions,mapState} from 'vuex';
+  import Loading from '@/components/loading';
   import {Slider,Rate,Input} from 'iview';
   Vue.component('Input', Input);
   Vue.component('Slider', Slider);
@@ -75,7 +80,7 @@
       <li v-for="(item,index) in subjects" :key="index" class="task border-bottom">
 
 					<div>{{index+1}}.</div>
-					  <div class="ml5">
+					  <div class="ml5 flex1">
               <div v-html="item.content"></div>
               <div><p class="fl blue">【参考答案】:</p><div v-html="item.answer"></div></div>
               <div><p class="fl blue">【题目解析】:</p><div v-html="item.analysis"></div></div>
@@ -90,6 +95,7 @@
   export default {
       name: "Check",
       props:['id'],
+      components:{Loading},
       computed:{
         ...mapState({
           notCheckReportData:(state)=>JSON.parse(JSON.stringify(state.report.notCheckReportData)),
@@ -97,7 +103,6 @@
       },
       methods:{
         ...mapActions(['getNotCheckReport','saveReport']),
-        ...mapMutations(['showNotCheckLoading','hideNotCheckLoading']),
         getNotCheckReportData(data){
           const vm = this;
           vm.$wait.start('getNotCheckReportData');
@@ -109,6 +114,10 @@
         },
         goToReport(){
           const vm = this;
+          if(vm.notCheckReportData.teacherComment.length<=10){
+            vm.$Message.error('老师的话不能小于10个字！');
+            return;
+          }
           vm.saveReport(vm.notCheckReportData).then(()=>{
             vm.$router.push({
               name:'report',
@@ -116,7 +125,7 @@
                 id:vm.id
               }
             })
-          });
+          },(data)=>{vm.$Message.error(data);});
         }
       },
       created(){

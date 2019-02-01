@@ -10,10 +10,12 @@
       </div>
       <div class="check-block">
         <p class="check-block-title">课堂风采</p>
-        <div class="flex flex-jsb mt10">
-          <div v-for="(item,index) in checkReportData.imageUrls" :key="index" style="width: 30%">
-            <img :src="item.url" alt=""/>
+        <div class="flex flex-jsb flex-wrap mt10">
+          <div v-for="(item,index) in checkReportData.imageUrls" :key="index" class="img-wrap" @click="()=>imgClick(item.url)">
+            <img :src="item.url" alt="" style="margin: auto;"/>
           </div>
+          <div class="img-empty"></div>
+          <div class="img-empty"></div>
         </div>
       </div>
       <div class="check-block">
@@ -77,12 +79,13 @@
       <div v-if="$wait.waiting('sendReport')" class="send-button">发送中...</div>
       <div v-else @click="sendToReport" class="send-button">发送报告</div>
     </div>
+    <div ref="imgMask" @click="imgMaskClick" class="img-mask"></div>
   </div>
 </template>
 
 <script>
   import Vue from 'vue';
-  import {mapActions,mapState,mapMutations} from 'vuex';
+  import {mapActions,mapState} from 'vuex';
   import Loading from '@/components/loading';
   import {Slider,Rate} from 'iview';
   Vue.component('Slider', Slider);
@@ -99,7 +102,6 @@
     },
     methods:{
       ...mapActions(['getCheckReport','sendReport']),
-      ...mapMutations(['showCheckLoading','hideCheckLoading']),
       sendToReport(){
         const vm = this;
         if(vm.$wait.waiting('sendReport')){
@@ -122,6 +124,13 @@
         }).finally(()=>{
           vm.$wait.end('sendReport');
         });
+      },
+      imgMaskClick(){
+        this.$refs.imgMask.style.display = "none";
+      },
+      imgClick(url){
+        this.$refs.imgMask.style.backgroundImage = `url("${url}")`;
+        this.$refs.imgMask.style.display = "block";
       }
     },
     created(){
@@ -137,6 +146,17 @@
 </script>
 
 <style scoped lang="less">
+  .img-wrap{
+    width: 30%;
+    height: 100px;
+    overflow: hidden;
+    display: flex;
+    background-color: #eeeeee;
+  }
+  .img-empty {
+    height: 0;
+    width: 30%;
+  }
  .last-value{
    border-top-right-radius: 5px;
    border-bottom-right-radius: 5px;
@@ -155,4 +175,16 @@
      background-color: #32daa8;
    }
  }
+  .img-mask{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    background-color: rgba(0,0,0,0.5);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 </style>

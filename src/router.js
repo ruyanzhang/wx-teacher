@@ -38,14 +38,14 @@ const router = new Router({
       name: 'check',
       component:() => import(/* webpackChunkName: "Check" */ './views/Check.vue'),
       meta: { requiresAuth: true },
-      props:(route)=>({id:route.query.id})
+      props:(route)=>({id:route.query.id ? route.query.id : ''})
     },
     {
       path: '/report',
       name: 'report',
       component:() => import(/* webpackChunkName: "Report" */ './views/Report.vue'),
       meta: { requiresAuth: true },
-      props:(route)=>({id:route.query.id})
+      props:(route)=>({id:route.query.id ? route.query.id : ''})
     },
     {
       path: '/login',

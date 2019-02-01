@@ -2,13 +2,13 @@
   <div class="home">
     <div class="calendar-wrap">
       <Calendar
-        v-on:choseDay="clickDay"
-        v-on:changeMonth="changeDate"></Calendar>
+        @choseDay="clickDay"
+        @changeMonth="changeDate"></Calendar>
     </div>
     <div style="padding: 0 16px;">
       <Tabs v-model="curTab" :animated="false" type="card">
         <TabPane label="日课程" name="day">
-          <Loading v-if="dayLoading"></Loading>
+          <Loading v-if="$wait.waiting('dayLoadData')"></Loading>
           <div v-else>
             <NoData v-if="dayListData.length===0" text="当前日期无排课"></NoData>
             <ul v-else>
@@ -30,7 +30,7 @@
           </div>
         </TabPane>
         <TabPane label="月课程" name="month">
-          <Loading v-if="monthLoading"></Loading>
+          <Loading v-if="$wait.waiting('monthLoadData')"></Loading>
           <div v-else>
             <NoData v-if="monthListData.length===0" text="当前月无排课"></NoData>
             <ul v-else>
@@ -71,8 +71,6 @@
     components:{Calendar,Loading,NoData},
     data(){
       return {
-        dayLoading:false,
-        monthLoading:false,
         curTab:'day'
       }
     },
@@ -93,23 +91,23 @@
       dayLoadData(date){
         const vm = this;
         const token = getToken();
-        const today = moment(new Date(date)).format('YYYY-MM-DD') || moment().format('YYYY-MM-DD');
-        vm.dayLoading = true;
-        this.getDayList({token,today}).then(function () {},function (data) {
+        const today = date ? moment(new Date(date)).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
+        vm.$wait.start('dayLoadData');
+        this.getDayList({token,today}).then(()=>{},(data)=>{
           vm.$Message.error(data);
-        }).finally(function () {
-          vm.dayLoading = false;
+        }).finally(()=>{
+          vm.$wait.end('dayLoadData');
         });
       },
       monthLoadData(date){
         const vm = this;
         const token = getToken();
-        const month = moment(new Date(date)).format('YYYY-MM') || moment().format('YYYY-MM');
-        vm.monthLoading = true;
-        this.getMonthList({token,month}).then(function () {},function (data) {
+        const month = date ? moment(new Date(date)).format('YYYY-MM') : moment().format('YYYY-MM');
+        vm.$wait.start('monthLoadData');
+        this.getMonthList({token,month}).then(() => {},(data) => {
           vm.$Message.error(data);
-        }).finally(function () {
-          vm.monthLoading = false;
+        }).finally(() =>  {
+          vm.$wait.end('monthLoadData');
         });
       }
     },

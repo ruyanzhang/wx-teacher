@@ -2,17 +2,17 @@
   <div class="login-warp">
     <Form ref="formInline" :model="formInline" :rules="ruleInline">
       <FormItem prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="用户名" size="large">
+        <ivInput type="text" v-model="formInline.user" placeholder="用户名" size="large">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
-        </Input>
+        </ivInput>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="密码" size="large">
+        <ivInput type="password" v-model="formInline.password" placeholder="密码" size="large">
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
-        </Input>
+        </ivInput>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formInline')" size="large">{{loading ? '登陆中...':'登录'}}</Button>
+        <Button type="primary" @click="handleSubmit('formInline')" size="large">{{$wait.waiting('handleSubmit') ? '登陆中...':'登录'}}</Button>
       </FormItem>
     </Form>
   </div>
@@ -25,7 +25,7 @@
     import {setToken} from "../utils";
     Vue.component('Form', Form);
     Vue.component('FormItem', FormItem);
-    Vue.component('Input', Input);
+    Vue.component('ivInput', Input);
     Vue.component('Icon', Icon);
     Vue.component('Button', Button);
     export default {
@@ -55,16 +55,19 @@
             if (valid) {
               const vm = this;
               const {user,password} = this.formInline;
-              vm.loading = true;
+              if(vm.$wait.waiting('handleSubmit')){
+                return;
+              }
+              vm.$wait.start('handleSubmit');
               vm.login({
                 user,password
-              }).then(function (data) {
+              }).then((data)=>{
                 setToken(data.token);
                 vm.$router.push({name: 'home'});
-              },function (data) {
+              },(data)=>{
                 vm.$Message.error(data);
-              }).finally(function () {
-                vm.loading = false;
+              }).finally(()=>{
+                vm.$wait.end('handleSubmit');
               });
             }
           })
@@ -79,10 +82,9 @@
     background: url("../images/logo-bg.png") no-repeat;
     background-size: cover;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     &>form{
       width: 100%;
+      margin: auto;
     }
     .ivu-btn{
       width: 100%;
