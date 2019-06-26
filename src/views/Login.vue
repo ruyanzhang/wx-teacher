@@ -19,61 +19,57 @@
 
 </template>
 <script>
-    import Vue from 'vue';
-    import {mapActions} from 'vuex';
-    import { Form, FormItem,Input,Icon,Button} from 'iview';
-    import {setToken} from "../utils";
-    Vue.component('Form', Form);
-    Vue.component('FormItem', FormItem);
-    Vue.component('ivInput', Input);
-    Vue.component('Icon', Icon);
-    Vue.component('Button', Button);
-    export default {
-      name: "login",
-      data () {
-        return {
-          loading:false,
-          formInline: {
-            user: '',
-            password: ''
-          },
-          ruleInline: {
-            user: [
-              { required: true, message: '请输入用户名', trigger: 'blur' }
-            ],
-            password: [
-              { required: true, message: '请输入密码', trigger: 'blur' },
-              { type: 'string', min: 6, message: '密码必须大于6位', trigger: 'blur' }
-            ]
-          }
-        }
+import Vue from 'vue'
+import { mapActions } from 'vuex'
+import { Form, FormItem, Input, Icon, Button } from 'iview'
+Vue.component('Form', Form)
+Vue.component('FormItem', FormItem)
+Vue.component('ivInput', Input)
+Vue.component('Icon', Icon);
+Vue.component('Button', Button)
+export default {
+  name: "login",
+  data () {
+    return {
+      loading:false,
+      formInline: {
+        user: '',
+        password: ''
       },
-      methods: {
-        ...mapActions(['login']),
-        handleSubmit(name) {
-          this.$refs[name].validate((valid) => {
-            if (valid) {
-              const vm = this;
-              const {user,password} = this.formInline;
-              if(vm.$wait.waiting('handleSubmit')){
-                return;
-              }
-              vm.$wait.start('handleSubmit');
-              vm.login({
-                user,password
-              }).then((data)=>{
-                setToken(data.token);
-                vm.$router.push({name: 'home'});
-              },(data)=>{
-                vm.$Message.error(data);
-              }).finally(()=>{
-                vm.$wait.end('handleSubmit');
-              });
-            }
-          })
-        }
+      ruleInline: {
+        user: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { type: 'string', min: 6, message: '密码必须大于6位', trigger: 'blur' }
+        ]
       }
     }
+  },
+  methods: {
+    ...mapActions(['login']),
+    handleSubmit(name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          const vm = this
+          const {user,password} = this.formInline
+          if (vm.$wait.waiting('handleSubmit')) {
+            return
+          }
+          vm.$wait.start('handleSubmit')
+          vm.login({
+            user, password
+          }).then(() => {
+            vm.$router.push({name: 'home'})
+          }).finally(() => {
+            vm.$wait.end('handleSubmit')
+          });
+        }
+      })
+    }
+  }
+}
 </script>
 <style scoped lang="less">
   .login-warp{

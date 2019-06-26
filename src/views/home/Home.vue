@@ -56,66 +56,61 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue';
-  import {mapActions,mapGetters} from 'vuex';
-  import Calendar from 'vue-calendar-component';
-  import Loading from '@/components/loading';
-  import NoData  from '@/components/no-data';
-  import {getToken} from "../../utils";
-  import moment from 'moment';
-  import {Tabs,TabPane} from 'iview';
-  Vue.component('Tabs', Tabs);
-  Vue.component('TabPane', TabPane);
-  export default {
-    name: 'home',
-    components:{Calendar,Loading,NoData},
-    data(){
-      return {
-        curTab:'day'
-      }
-    },
-    computed:{
-      ...mapGetters(['dayListCount','dayListData','monthListCount','monthListData'])
-    },
-    methods:{
-      ...mapActions(['getDayList','getMonthList']),
-      moment:moment,
-      clickDay(data) {
-        this.curTab = 'day';
-        this.dayLoadData(data);
-      },
-      changeDate(data) {
-        this.curTab = 'month';
-        this.monthLoadData(data);
-      },
-      dayLoadData(date){
-        const vm = this;
-        const token = getToken();
-        const today = date ? moment(new Date(date)).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
-        vm.$wait.start('dayLoadData');
-        this.getDayList({token,today}).then(()=>{},(data)=>{
-          vm.$Message.error(data);
-        }).finally(()=>{
-          vm.$wait.end('dayLoadData');
-        });
-      },
-      monthLoadData(date){
-        const vm = this;
-        const token = getToken();
-        const month = date ? moment(new Date(date)).format('YYYY-MM') : moment().format('YYYY-MM');
-        vm.$wait.start('monthLoadData');
-        this.getMonthList({token,month}).then(() => {},(data) => {
-          vm.$Message.error(data);
-        }).finally(() =>  {
-          vm.$wait.end('monthLoadData');
-        });
-      }
-    },
-    created() {
-      this.dayLoadData();
-      this.monthLoadData();
+import Vue from 'vue'
+import {mapActions,mapGetters} from 'vuex'
+import Calendar from 'vue-calendar-component'
+import Loading from '@/components/loading'
+import NoData  from '@/components/no-data'
+import moment from 'moment'
+import { Tabs, TabPane } from 'iview'
+Vue.component('Tabs', Tabs)
+Vue.component('TabPane', TabPane)
+export default {
+  name: 'home',
+  components:{ Calendar, Loading, NoData },
+  data(){
+    return {
+      curTab:'day'
     }
+  },
+  computed: {
+    ...mapGetters(['dayListCount','dayListData','monthListCount','monthListData'])
+  },
+  methods: {
+    ...mapActions(['getDayList','getMonthList']),
+    moment: moment,
+    clickDay(data) {
+      this.curTab = 'day'
+      this.dayLoadData(data)
+    },
+    changeDate(data) {
+      this.curTab = 'month'
+      this.monthLoadData(data)
+    },
+    dayLoadData(date){
+      const vm = this
+      const today = date ? moment(new Date(date)).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')
+      vm.$wait.start('dayLoadData')
+      this.getDayList({ today }).finally(() => {
+        vm.$wait.end('dayLoadData');
+      })
+    },
+    monthLoadData(date){
+      const vm = this
+      const month = date ? moment(new Date(date)).format('YYYY-MM') : moment().format('YYYY-MM')
+      vm.$wait.start('monthLoadData')
+      this.getMonthList({ month }).then(() => {},(data) => {
+        vm.$Message.error(data)
+      }).finally(() =>  {
+        vm.$wait.end('monthLoadData')
+      })
+    }
+  },
+  created() {
+    this.dayLoadData()
+    this.monthLoadData()
   }
+}
 </script>
 <style scoped lang='less'>
   .course-item{

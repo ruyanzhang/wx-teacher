@@ -1,95 +1,71 @@
-import {getReportList,getMistakeList,getMistakeCourse} from '../../services/mistake';
-import {getToken} from "../../utils";
+import { getReportList, getMistakeList, getMistakeCourse } from '@/services/mistake'
+
 const state = {
-  mistakeLoading:false,
-  mistakePage:0,
-  mistakeList:[],
-  mistakeGradeCourseId:'',
-  mistakeGradeCourse:[],
-  mistakeStatus:'0',
-  mistakeTimeType:'1',
-  hasMistake:true,
-  reportPage:0,
-  reportList:[],
-  reportLoading:false,
-  hasReport:true,
+  mistakeList: [],
+  mistakeGradeCourse: [],
+  hasMistake: true,
+  reportList: [],
+  hasReport: true,
 };
 
 const getters = {
-
+  mistakeGradeCourseData(state) {
+    return state.mistakeGradeCourse || []
+  },
+  mistakeListData(state) {
+    return state.mistakeList || []
+  },
+  reportListData(state) {
+    return state.reportList || []
+  },
+  hasMistakeData(state) {
+    return state.hasMistake
+  },
+  hasReportData(state) {
+    return state.hasReport
+  }
 };
 
 const mutations = {
   updateState (state, payload) {
-    if(payload.type==='mistakeGradeCourseId'){
-      state.mistakeGradeCourseId = payload.mistakeGradeCourseId;
-      state.mistakePage = payload.mistakePage;
-    }else if(payload.type==='mistakeStatus'){
-      state.mistakeStatus = payload.mistakeStatus;
-      state.mistakePage = payload.mistakePage;
-    }else if(payload.type==='mistakeTimeType'){
-      state.mistakeTimeType = payload.mistakeTimeType;
-      state.mistakePage = payload.mistakePage;
-    }else if(payload.type==='mistakeGradeCourse'){
-      state.mistakeGradeCourse = payload.mistakeGradeCourse;
-      state.mistakeGradeCourseId = payload.mistakeGradeCourse ? payload.mistakeGradeCourse[0].gradeCourseId : '';
-    }else if(payload.type==='mistakeList'){
+    if (payload.type==='mistakeList') {
       state.mistakeList = payload.mistakeList;
-      state.mistakePage = payload.mistakePage;
       state.hasMistake = payload.hasMistake;
-    }else if(payload.type==='reportList'){
+    }else if (payload.type==='reportList') {
       state.reportList = payload.reportList;
-      state.reportPage = payload.reportPage;
       state.hasReport = payload.hasReport;
+    } else if (payload.type==='mistakeGradeCourse') {
+      state.mistakeGradeCourse = payload.mistakeGradeCourse
     }
-
   }
 };
 
 const actions = {
-  async getReportList ({ state,commit }, payload) {
+  async getReportList ({ state,commit }, payload = {}) {
     const data = await getReportList(payload);
-    if(data.status===200 && data.statusText==='OK'){
-      commit('updateState',{
-        type:'reportList',
-        reportPage:payload.reportPage,
-        hasReport: data.data.list && data.data.list.length > 0,
-        reportList:payload.reportPage===1 ? data.data.list : state.reportList.concat(data.data.list)
-      });
-      return Promise.resolve(data.data);
-    }else{
-      return Promise.resolve(data.msg);
-    }
+    commit('updateState', {
+      type:'reportList',
+      hasReport: data.data.list && data.data.list.length > 0,
+      reportList:payload.reportPage === 1 ? data.data.list : state.reportList.concat(data.data.list)
+    })
+    return Promise.resolve(data)
   },
-  async getMistakeList ({ state,commit }, payload={}) {
-    const token = getToken();
-    const {mistakeGradeCourseId,mistakePage,mistakeStatus,mistakeTimeType} = state;
-    const data = await getMistakeList({mistakeGradeCourseId,mistakePage,mistakeStatus,mistakeTimeType,token,...payload});
-    commit('updateState',{...payload});
-    if(data.status===200 && data.statusText==='OK'){
-      commit('updateState',{
-        type:'mistakeList',
-        mistakePage:payload.mistakePage,
-        hasMistake: data.data.list && data.data.list.length > 0,
-        mistakeList:payload.mistakePage===1 ? data.data.list : state.mistakeList.concat(data.data.list)
-      });
-      return Promise.resolve(data.data);
-    }else{
-      return Promise.resolve(data.msg);
-    }
+  async getMistakeList ({ state,commit }, payload = {}) {
+    const data = await getMistakeList(payload)
+    commit('updateState', {
+      type:'mistakeList',
+      hasMistake: data.data.list && data.data.list.length > 0,
+      mistakeList: payload.mistakePage === 1 ? data.data.list : state.mistakeList.concat(data.data.list)
+    });
+    return Promise.resolve(data)
   },
-  async getMistakeCourse({commit}, payload={}) {
-    const token = getToken();
-    const data = await getMistakeCourse({token,...payload});
-    if(data.status===200 && data.statusText==='OK'){
-      commit('updateState',{
-        type:'mistakeGradeCourse',
-        mistakeGradeCourse:data.data.list
-      });
-      return Promise.resolve(data.data.list);
-    }else{
-      return Promise.resolve(data.msg);
-    }
+  async getMistakeCourse ({commit}, payload = {}) {
+    const data = await getMistakeCourse(payload);
+    commit('updateState',{
+      type: 'mistakeGradeCourse',
+      mistakeGradeCourse: data.data.list
+    });
+    return Promise.resolve(data)
   }
 };
 

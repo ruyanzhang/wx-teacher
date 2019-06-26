@@ -1,13 +1,14 @@
 <template>
   <div class="list-wrap">
-    <div class="flex1 ovh pb10">
+    <NoData v-if="reportListData===null" text="当前没有学习报告"></NoData>
+    <div v-else class="flex1 ovh pb10">
       <scroll class="scroll-wrapper"
-              :data="reportList"
+              :data="reportListData"
               :pullup="true"
               @scrollToEnd="scrollToEnd">
         <div class="scroll-wrapper-content">
           <ul>
-            <li v-for="(item,index) in reportList" :key="index" @click="()=>goTo(item.id,item.hasCheck)" class="list-item">
+            <li v-for="(item,index) in reportListData" :key="index" @click="()=>goTo(item.id,item.hasCheck)" class="list-item">
               <p class="list-name">{{item.classCourseName}}</p>
               <div class="flex flex-ac flex-jsb">
                 <div>
@@ -28,8 +29,8 @@
               </div>
             </li>
           </ul>
-          <Loading class="mt10" v-if="reportLoading"></Loading>
-          <div v-else-if="hasReport===false">暂无更多数据！</div>
+          <Loading class="mt10" v-if="$wait.waiting('getReportList')"></Loading>
+          <div v-else-if="hasReportData===false">暂无更多数据！</div>
         </div>
 
       </scroll>
@@ -37,41 +38,55 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue';
-  import Scroll from '@/components/scroll';
-  import Loading from '@/components/loading';
-  import moment from 'moment';
-  import {Rate} from 'iview';
-  Vue.component('Rate', Rate);
-  export default {
-    name: 'reportList',
-    props:['reportLoading','reportList','hasReport'],
-    components:{Scroll,Loading},
-    data(){
-      return {
-      }
-    },
-    computed:{
-
-    },
-    methods:{
-      goTo(id,checked){
-        this.$router.push({
-          name:checked ? 'report':'check',
-          query:{
-            id:id
-          }
-        })
-      },
-      moment:moment,
-      scrollToEnd(){
-        this.$emit('searchReportList');
-      }
-    },
-    created() {
-
+import Vue from 'vue'
+import { mapGetters, mapActions } from 'vuex'
+import Scroll from '@/components/scroll'
+import Loading from '@/components/loading'
+import NoData from '@/components/no-data'
+import moment from 'moment'
+import {Rate} from 'iview'
+Vue.component('Rate', Rate)
+export default {
+  name: 'reportList',
+  components: { Scroll, Loading, NoData },
+  data(){
+    return {
+      reportPage: 0
     }
+  },
+  computed:{
+    ...mapGetters(['reportListData', 'hasReportData'])
+  },
+  methods:{
+    ...mapActions(['getReportList']),
+    goTo(id,checked) {
+      this.$router.push({
+        name: checked ? 'report' : 'check',
+        query: {
+          id:id
+        }
+      })
+    },
+    moment: moment,
+    scrollToEnd() {
+      this.getReportListData()
+    },
+    getReportListData() {
+      if (this.$wait.waiting('getReportList')) {
+        return false
+      }
+      this.$wait.start('getReportList')
+      this.getReportList({
+        reportPage: ++this.reportPage
+      }).finally(() => {
+        this.$wait.end('getReportList')
+      })
+    }
+  },
+  created() {
+    this.getReportListData()
   }
+}
 </script>
 <style scoped>
 
