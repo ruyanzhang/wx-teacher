@@ -1,13 +1,6 @@
-import {requestPost} from '../utils/request'
+import { requestPost } from '../utils/request'
 import config from  '../utils/config'
-const {learningCase,checkReportUrl,notCheckReportUrl,sendReportUrl,saveReportUrl} = config.api;
-
-export async function getLearningCase (data) {
-  return requestPost(learningCase,{
-    method: 'post',
-    data,
-  })
-}
+const { checkReportUrl, notCheckReportUrl, sendReportUrl, saveReportUrl } = config.api;
 
 export async function getCheckReport (data) {
   return requestPost(checkReportUrl,{

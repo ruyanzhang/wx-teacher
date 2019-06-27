@@ -1,13 +1,13 @@
-import Mock from 'mockjs';
-import config from '../utils/config';
-const {userLogin,getDayUrl,getMonthUrl,reportListUrl,mistakeListUrl,mistakeCourseUrl,notCheckReportUrl,saveReportUrl,
-  checkReportUrl,sendReportUrl} = config.api;
-const Random = Mock.Random;
-Mock.mock(userLogin,{
+import Mock from 'mockjs'
+import config from '@/utils/config'
+const { userLogin, getDayUrl, getMonthUrl, reportListUrl, mistakeListUrl, mistakeCourseUrl, notCheckReportUrl, saveReportUrl,
+  checkReportUrl, sendReportUrl } = config.api
+const Random = Mock.Random
+Mock.mock(userLogin, {
   "user":/[a-z]{6,20}/,
   "token":/\d{40}/,
-});
-Mock.mock(getDayUrl,{
+})
+Mock.mock(getDayUrl, {
   "count|0-20":15,
   "list|0-20": [
     {
@@ -19,8 +19,8 @@ Mock.mock(getDayUrl,{
       "classroomName|1":['403课室','509课室','201课室','203课室','301课室','303课室'],
     }
   ]
-});
-Mock.mock(getMonthUrl,{
+})
+Mock.mock(getMonthUrl, {
   "count|0-20":15,
   "list|0-20": [
     {
@@ -32,8 +32,8 @@ Mock.mock(getMonthUrl,{
       "classroomName|1":['403课室','509课室','201课室','203课室','301课室','303课室'],
     }
   ]
-});
-Mock.mock(reportListUrl,{
+})
+Mock.mock(reportListUrl, {
   "count|0-20":15,
   "list|0-20": [
     {
@@ -45,8 +45,8 @@ Mock.mock(reportListUrl,{
       "classroomName|1":['403课室','509课室','201课室','203课室','301课室','303课室'],
     }
   ]
-});
-Mock.mock(mistakeListUrl,{
+})
+Mock.mock(mistakeListUrl, {
   "count|0-20":15,
   "list|5-10": [
     {
@@ -68,16 +68,16 @@ Mock.mock(mistakeListUrl,{
       "answer|1":['what','that','if','how','where'],
     }
   ]
-});
-Mock.mock(mistakeCourseUrl,{
+})
+Mock.mock(mistakeCourseUrl, {
   "list|5-10":[
     {
       "gradeCourseName|1":['一年级语文','初一语文','一年级数学','初二化学','四年级英语','高中地理'],
       "gradeCourseId":/\d{20}/,
     }
   ]
-});
-Mock.mock(reportListUrl,{
+})
+Mock.mock(reportListUrl, {
   "count|0-20":15,
   "list|5-10": [
     {
@@ -93,8 +93,8 @@ Mock.mock(reportListUrl,{
       "hasCheck|1":[true,false]
     }
   ]
-});
-Mock.mock(notCheckReportUrl,{
+})
+Mock.mock(notCheckReportUrl, {
   "id":/[a-z\d-]{40}/,
   "studentName|1":['张三','陈建波','何志华','胡志明','谢婷','刘东升','陈六','刘晓华','李四'],
   "topicDocName|1":['张三','导学案任务发放与审核PPT.pptx','导学案任务发放与审核PPT.pptx','旅游与交通（谓语的时态语态及虚拟综合）'],
@@ -131,8 +131,8 @@ Mock.mock(notCheckReportUrl,{
   "thinkAsk":0,
   "goodHabits":0,
   "teacherComment":""
-});
-Mock.mock(checkReportUrl,{
+})
+Mock.mock(checkReportUrl, {
   "id":/[a-z\d-]{40}/,
   "studentName|1":['张三','陈建波','何志华','胡志明','谢婷','刘东升','陈六','刘晓华','李四'],
   "topicDocName|1":['张三','导学案任务发放与审核PPT.pptx','导学案任务发放与审核PPT.pptx','旅游与交通（谓语的时态语态及虚拟综合）'],
@@ -184,12 +184,12 @@ Mock.mock(checkReportUrl,{
       ]
     }
   ]
-});
-Mock.mock(saveReportUrl,{
-  "success":true
-});
-Mock.mock(sendReportUrl,{
-  "msg":"成功发送"
+})
+Mock.mock(saveReportUrl, {
+  "success": true
+})
+Mock.mock(sendReportUrl, {
+  "msg": "成功发送"
 });
 
 

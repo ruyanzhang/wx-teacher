@@ -6,7 +6,7 @@ export function request (url, options) {
     method: options.method || 'get',
     params: options.data || {},
   }).then((data) => {
-    if(data.status===200 && data.statusText==='OK'){
+    if (data.status === 200 && data.statusText === 'OK') {
       return data
     } else {
       Message.error(data)
@@ -15,7 +15,6 @@ export function request (url, options) {
     console.log(error);
   });
 }
-
 export function requestPost (url, options) {
   return axios({
     url: url,
@@ -25,7 +24,7 @@ export function requestPost (url, options) {
       'Content-Type': 'application/json'
     }
   }).then((data) => {
-    if(data.status===200 && data.statusText==='OK'){
+    if (data.status === 200 && data.statusText === 'OK') {
       return data
     } else {
       Message.error(data.msg)

@@ -59,11 +59,11 @@ export default {
   },
   methods:{
     ...mapActions(['getReportList']),
-    goTo(id,checked) {
+    goTo(id, checked) {
       this.$router.push({
         name: checked ? 'report' : 'check',
         query: {
-          id:id
+          id: id
         }
       })
     },

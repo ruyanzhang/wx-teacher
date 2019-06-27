@@ -13,30 +13,30 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue'
-  import MistakeList from './MistakeList'
-  import ReportList from './ReportList'
-  import { Tabs, TabPane } from 'iview'
-  Vue.component('Tabs', Tabs)
-  Vue.component('TabPane', TabPane)
-  export default {
-    name: 'mistake',
-    components: { MistakeList, ReportList },
-    data(){
-      return {
-        curTab:"report"
-      }
-    },
-    computed:{
-    },
-    methods:{
-      changeTab(name) {
-        this.curTab = name;
-      }
-    },
-    created() {
+import Vue from 'vue'
+import MistakeList from './MistakeList'
+import ReportList from './ReportList'
+import { Tabs, TabPane } from 'iview'
+Vue.component('Tabs', Tabs)
+Vue.component('TabPane', TabPane)
+export default {
+  name: 'mistake',
+  components: { MistakeList, ReportList },
+  data(){
+    return {
+      curTab:"report"
     }
+  },
+  computed: {
+  },
+  methods: {
+    changeTab(name) {
+      this.curTab = name;
+    }
+  },
+  created() {
   }
+}
 </script>
 <style lang="less">
   .mistake{

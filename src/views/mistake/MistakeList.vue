@@ -75,9 +75,9 @@ Vue.component('ivCol', Col)
 Vue.component('Option', Option)
 export default {
   name: 'mistakeList',
-  props:['curTab', 'hasMistake'],
-  components:{ Scroll, Loading, NoData },
-  data(){
+  props: ['curTab', 'hasMistake'],
+  components: { Scroll, Loading, NoData },
+  data() {
     return {
       mistakeGradeCourseId: '',
       mistakeStatus: '',
@@ -85,10 +85,10 @@ export default {
       mistakePage: 0
     }
   },
-  computed:{
+  computed: {
     ...mapGetters(['mistakeListData', 'mistakeGradeCourseData', 'hasMistakeData'])
   },
-  methods:{
+  methods: {
     ...mapActions(['getMistakeList','getMistakeCourse']),
     moment: moment,
     changeSearch() {

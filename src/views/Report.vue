@@ -84,65 +84,60 @@
 </template>
 
 <script>
-  import Vue from 'vue';
-  import {mapActions,mapState} from 'vuex';
-  import Loading from '@/components/loading';
-  import {Slider,Rate} from 'iview';
-  Vue.component('Slider', Slider);
-  Vue.component('Rate', Rate);
-  export default {
-    name: "report",
-    components:{Loading},
-    props:['id'],
-    computed:{
-      ...mapState({
-        checkReportData:(state)=>JSON.parse(JSON.stringify(state.report.checkReportData)),
-        checkReportLoading2:(state)=>state.report.checkReportLoading2
+import Vue from 'vue'
+import { mapActions, mapGetters } from 'vuex'
+import Loading from '@/components/loading'
+import { Slider, Rate } from 'iview'
+Vue.component('Slider', Slider)
+Vue.component('Rate', Rate)
+export default {
+  name: "report",
+  components: { Loading },
+  props: ['id'],
+  computed: {
+    ...mapGetters(['checkReportData'])
+  },
+  methods: {
+    ...mapActions(['getCheckReport','sendReport']),
+    sendToReport() {
+      const vm = this
+      if(vm.$wait.waiting('sendReport')){
+        return
+      }
+      vm.$wait.start('sendReport')
+      vm.sendReport({
+        id: vm.id
+      }).then((data) => {
+        vm.$Message.success({
+          content:data.msg,
+          onClose(){
+            vm.$router.push({
+              'name':'mistake'
+            })
+          }
+        })
+      }).finally(() => {
+        vm.$wait.end('sendReport')
       })
     },
-    methods:{
-      ...mapActions(['getCheckReport','sendReport']),
-      sendToReport(){
-        const vm = this;
-        if(vm.$wait.waiting('sendReport')){
-          return;
-        }
-        vm.$wait.start('sendReport');
-        vm.sendReport({
-          id:vm.id
-        }).then((data)=>{
-          vm.$Message.success({
-            content:data.msg,
-            onClose(){
-              vm.$router.push({
-                'name':'mistake'
-              })
-            }
-          })
-        },(data)=>{
-          vm.$Message.error(data);
-        }).finally(()=>{
-          vm.$wait.end('sendReport');
-        });
-      },
-      imgMaskClick(){
-        this.$refs.imgMask.style.display = "none";
-      },
-      imgClick(url){
-        this.$refs.imgMask.style.backgroundImage = `url("${url}")`;
-        this.$refs.imgMask.style.display = "block";
-      }
+    imgMaskClick() {
+      this.$refs.imgMask.style.display = "none"
     },
-    created(){
-      const vm = this;
-      vm.$wait.start('getCheckReport');
-      vm.getCheckReport({
-        id:vm.id
-      }).then(()=>{},(data)=>{vm.$Message.error(data);}).finally(()=>{
-        vm.$wait.end('getCheckReport');
-      });
+    imgClick(url) {
+      this.$refs.imgMask.style.backgroundImage = `url("${url}")`
+      this.$refs.imgMask.style.display = "block"
     }
+  },
+  created() {
+    const vm = this
+    vm.$wait.start('getCheckReport')
+    vm.getCheckReport({
+      id: vm.id
+    }).finally(() => {
+      vm.$wait.end('getCheckReport')
+    })
   }
+}
 </script>
 
 <style scoped lang="less">
