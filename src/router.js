@@ -18,7 +18,7 @@ const router = new Router({
       },
       meta: { requiresAuth: true },
       props:{
-        navBar:() => ({current:'home'})
+        navBar: () => ({current:'home'})
       }
     },
     {
@@ -30,7 +30,7 @@ const router = new Router({
       },
       meta: { requiresAuth: true },
       props: {
-        navBar:()=>({current:'mistake'})
+        navBar: () => ({current:'mistake'})
       }
     },
     {
@@ -53,7 +53,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-
+      props: (route) => ({redirect: route.query.redirect ? route.query.redirect : ''}),
       component: () => import(/* webpackChunkName: "login" */'./views/Login.vue')
     },
     {
@@ -65,7 +65,7 @@ const router = new Router({
 })
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!getToken('token') || getToken('token')==='undefined') {
+    if (!getToken('token') || getToken('token') === 'undefined') {
       next({
         path: '/login',
         query: { redirect: to.fullPath }

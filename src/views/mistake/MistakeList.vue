@@ -75,7 +75,7 @@ Vue.component('ivCol', Col)
 Vue.component('Option', Option)
 export default {
   name: 'mistakeList',
-  props: ['curTab', 'hasMistake'],
+  props: ['curTab'],
   components: { Scroll, Loading, NoData },
   data() {
     return {

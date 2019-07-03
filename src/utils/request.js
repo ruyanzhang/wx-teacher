@@ -1,10 +1,14 @@
 import axios from 'axios';
 import { Message } from 'iview'
+import { getToken } from '@/utils'
 export function request (url, options) {
   return axios({
     url: url,
     method: options.method || 'get',
     params: options.data || {},
+    headers: {
+      'token': getToken()
+    }
   }).then((data) => {
     if (data.status === 200 && data.statusText === 'OK') {
       return data
@@ -21,7 +25,8 @@ export function requestPost (url, options) {
     method: options.method || 'post',
     data: JSON.stringify(options.data) || {},
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'token': getToken()
     }
   }).then((data) => {
     if (data.status === 200 && data.statusText === 'OK') {

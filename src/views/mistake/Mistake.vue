@@ -3,7 +3,7 @@
     <div class="tab-wrapper bg1">
       <Tabs :animated="false" value="report" @on-click="changeTab">
         <TabPane label="学习报告" name="report">
-          <ReportList></ReportList>
+          <ReportList :curTab="curTab"></ReportList>
         </TabPane>
         <TabPane label="错题集" name="mistake">
           <MistakeList :curTab="curTab"></MistakeList>

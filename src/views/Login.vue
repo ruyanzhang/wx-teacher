@@ -47,6 +47,7 @@ export default {
       }
     }
   },
+  props: ['redirect'],
   methods: {
     ...mapActions(['login']),
     handleSubmit(name) {
@@ -61,7 +62,7 @@ export default {
           vm.login({
             user, password
           }).then(() => {
-            vm.$router.push({name: 'home'})
+            this.redirect ? vm.$router.push({path: this.redirect}) : vm.$router.push({name: 'home'})
           }).finally(() => {
             vm.$wait.end('handleSubmit')
           });

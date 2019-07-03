@@ -1,5 +1,6 @@
 <template>
   <div class="list-wrap">
+    <p style="display: none;">{{curTab}}</p>
     <NoData v-if="reportListData===null" text="当前没有学习报告"></NoData>
     <div v-else class="flex1 ovh pb10">
       <scroll class="scroll-wrapper"
@@ -32,7 +33,6 @@
           <Loading class="mt10" v-if="$wait.waiting('getReportList')"></Loading>
           <div v-else-if="hasReportData===false">暂无更多数据！</div>
         </div>
-
       </scroll>
     </div>
   </div>
@@ -54,6 +54,7 @@ export default {
       reportPage: 0
     }
   },
+  props: ['curTab'],
   computed:{
     ...mapGetters(['reportListData', 'hasReportData'])
   },

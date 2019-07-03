@@ -8,13 +8,13 @@
 </template>
 
 <script>
-  import Vue from 'vue';
-  import {Spin,Icon} from 'iview';
-  Vue.component('Spin', Spin);
-  Vue.component('Icon', Icon);
-    export default {
-        name: "loading"
-    }
+import Vue from 'vue'
+import {Spin,Icon} from 'iview'
+Vue.component('Spin', Spin)
+Vue.component('Icon', Icon)
+export default {
+  name: "loading"
+}
 </script>
 
 <style>
